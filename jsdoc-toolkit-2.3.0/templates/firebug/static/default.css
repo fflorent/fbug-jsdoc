@@ -194,3 +194,8 @@ ul.inheritsList
     text-align: right;
     font-size: 10px;
 }
+
+code {
+    font-style: italic;
+    font-size: 10px;
+}

@@ -53,6 +53,18 @@
 </ul><hr />
 </if>
 
+<!-- List of all Services (XPCOM) objects -->
+<if test="data.libs.length">
+<h2>Libraries</h2>
+<ul class="classList">
+    <for each="lib" in="data.libs">
+    <li>{!
+        output += new Link().toClass(lib.alias);
+     !}</li>
+    </for>
+</ul><hr />
+</if>
+
 <!-- List of all dialog objects -->
 <if test="data.dialogs.length">
 <h2>Dialogs</h2>

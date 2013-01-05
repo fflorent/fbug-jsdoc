@@ -42,6 +42,14 @@ JSDOC.PluginManager.registerPlugin(
                 symbol.isService = true;
                 symbol.classDesc = services[0].desc;
             }
+
+            // @lib
+            var libs = symbol.comment.getTag("lib");
+            if (libs.length) {
+                symbol.isa = "CONSTRUCTOR";
+                symbol.isLib = true;
+                symbol.classDesc = libs[0].desc;
+            }
         }
     }
 );

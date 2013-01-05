@@ -91,6 +91,11 @@ function publish(symbolSet) {
         return symbol.isService;
     }).sort(makeSortby("alias"));
 
+    // Get list of all libs
+    var libs = symbols.filter(function (symbol) {
+        return symbol.isLib;
+    }).sort(makeSortby("alias"));
+
 	// create a class index, displayed in the left-hand column of every class page
 	Link.base = "../";
  	publish.classesIndex = classesTemplate.process({
@@ -99,7 +104,8 @@ function publish(symbolSet) {
         domplates: domplates,
         panels: panels,
         modules: modules,
-        services: services
+        services: services,
+        libs: libs
     }); // kept in memory
 	
 	// create each of the class pages
@@ -123,7 +129,8 @@ function publish(symbolSet) {
         domplates: domplates,
         panels: panels,
         modules: modules,
-        services: services
+        services: services,
+        libs: libs
     });
 	
 	// create the class index page
