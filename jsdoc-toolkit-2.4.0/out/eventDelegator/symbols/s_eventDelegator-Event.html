@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">    <head>        <meta http-equiv="content-type" content="text/html; charset=utf-8" />        <meta name="generator" content="JsDoc Toolkit" />                <title>Firebug API Reference - s_eventDelegator-Event</title>        <style type="text/css">        /* See license.txt for terms of usage */
+
+body {
+    font-size: 12px;
+    font-family: Lucida Grande, Arial, sans-serif;
+}
+
+/************************************************************************************************/
+
+#container {
+    margin-top: 93px;
+    border-top: solid rgb(230, 230, 230) 25px;
+    width: 880px;
+}
+
+#header img {
+    z-index: 200;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+#index {
+    float: left;
+    width: 250px; /*xxxHonza 160px*/
+    left: 8px;
+    background-color: rgb(230, 230, 230); /* #F3F3F3 */
+    padding: 8px;
+    padding-top: 35px;
+}
+
+#content
+{
+    margin-top: -20px;
+    margin-left: 280px; /*xxxHonza 190px*/
+    width: 600px;
+}
+
+/************************************************************************************************/
+
+h1
+{
+    color: #444444;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0;
+    margin: 1em 0 0 .3em;
+}
+
+hr
+{
+    border: none 0;
+    border-top: 1px solid #7F8FB1;
+    height: 1px;
+}
+
+pre.code
+{
+    display: block;
+    padding: 8px;
+    border: 1px dashed #ccc;
+}
+
+a {
+    color: SlateBlue;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/************************************************************************************************/
+
+/* cllClasses.tmpl */
+.allClassesMenu {
+}
+
+/************************************************************************************************/
+
+.reportIssue {
+    margin-left: 310px;
+}
+
+/************************************************************************************************/
+
+.classList
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 8px;
+    font-family: arial, sans-serif;
+    font-size: 1em;
+    overflow: auto;
+}
+
+.classList li
+{
+    padding: 0;
+    margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+    line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+    background-color: #7F8FB1;
+    color: #fff;
+    font-size:130%;
+    text-align: left;
+    padding: 2px 6px 2px 6px;
+    border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+    vertical-align: top;
+    padding: 4px;
+    border-bottom: 1px #7F8FB1 solid;
+    border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+    border-left: 1px #7F8FB1 solid;
+    width: 140px;
+    text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+    line-height: 15px;
+    color: #002EBE;
+    font-family: "Courier New",Courier,monospace;
+    font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+    text-align: left;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.description {
+    line-height: 17px !important;
+}
+
+.summaryTable td.nameDescription, .description
+{
+    line-height: 15px;
+    padding: 4px;
+    padding-left: 4px;
+    font-size: 12px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+.inheritsList
+{
+    margin: 0 0 12px 20px;
+    padding: 0;
+}
+
+.detailList {
+    margin-left: 20px; 
+    line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+    font-weight: bold;
+    padding-bottom: 6px;
+    margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+    color: #777;
+    font-style: italic;
+}
+
+.fineprint
+{
+    text-align: right;
+    font-size: 10px;
+}
+
+.scopeName
+{
+    margin: 12px 0 0;
+    line-height: 15px;
+    color: #002EBE;
+    font-family: "Courier New",Courier,monospace;
+    font-size: 13px;
+    font-weight: bold;
+}
+        </style>        <link href="../prettify.css" type="text/css" rel="stylesheet" />        <script type="text/javascript" src="../prettify.js"></script>    </head><body onload="prettyPrint()">    <div id="container"><!-- ============================== header ================================= -->            <!-- begin static/header.html -->        <div id="header">
+    <img src="http://getfirebug.com/developer/api/header.png"/>
+</div>        <!-- end static/header.html --><!-- ============================== classes index ============================ -->        <div id="index">            <!-- begin publish.classesIndex -->            <!-- Top Menu --><div align="center">  <a href="../index.html">Class Index</a>  |  <a href="../files.html">File Index</a></div><hr /><!-- List of Modules (objects derived from Firebug.Module) --><!-- List of Panels (objects derived from Firebug.Panel) --><!-- List of Domplate templates (usually objects derived from Firebug.Rep) --><!-- List of all Services (XPCOM) objects --><!-- List of all dialog objects --><!-- List of all classes --><h2>All Classes</h2><ul class="classList">        <li><i><a href="../symbols/_global_.html">_global_</a></i></li>        <li><a href="../symbols/s_eventDelegator.html">s_eventDelegator</a></li>        <li><a href="../symbols/s_eventDelegator-Control.html">s_eventDelegator-Control</a></li>        <li><a href="../symbols/s_eventDelegator-Event.html">s_eventDelegator-Event</a></li>    </ul><hr />            <!-- end publish.classesIndex -->        </div>        <div id="content">            <a class="reportIssue" href="http://code.google.com/p/fbug/issues/entry?template=API Reference Report">Report Doc Issue</a>             |            <a href="http://getfirebug.com/wiki/index.php/Firebug_Source_Code_Comments">How To Comment Firebug Code</a><!-- ============================== class title ============================ -->            <h1 class="classTitle">                                Namespace s_eventDelegator-Event            </h1><!-- debug info --><!-- ============================== class summary ========================== -->                                                <p class="description">                                                <p>                                    <i>Defined in: </i> <a href="../symbols/src/lite_eventDelegator.js.html#L142">eventDelegator.js (line 142)</a>.                                </p>            </p><!-- ============================== constructor summary ==================== -->                                    <table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class s_eventDelegator-Event.">                <caption>Namespace Summary</caption>                <thead>                    <tr>                        <th scope="col">Constructor Attributes</th>                        <th scope="col">Constructor Name and Description</th>                    </tr>                </thead>                <tbody>                    <tr>                        <td class="attributes">&lt;inner&gt; &nbsp;</td>                        <td class="nameDescription" >                            <div class="fixedFont">                                <b><a href="../symbols/s_eventDelegator-Event.html#constructor">s_eventDelegator-Event</a></b>                            </div>                            <div class="description"></div>                        </td>                    </tr>                </tbody>            </table>            <!-- ============================== properties summary ===================== -->            <!-- ============================== methods summary ======================== -->                                                            <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class s_eventDelegator-Event.">                    <caption>Method Summary</caption>                    <thead>                        <tr>                            <th scope="col">Method Attributes</th>                            <th scope="col">Method Name and Description</th>                        </tr>                    </thead>                    <tbody>                                            <tr>                            <td class="attributes">&lt;static&gt; &nbsp;</td>                            <td class="nameDescription">                                <div class="fixedFont">Event.<b><a href="../symbols/s_eventDelegator-Event.html#.addEvent">addEvent</a></b>(element, type, callback, capture, owner, validator, data, bubble)                                </div>                                <div class="description"></div>                            </td>                        </tr>                                            <tr>                            <td class="attributes">&lt;static&gt; &nbsp;</td>                            <td class="nameDescription">                                <div class="fixedFont">Event.<b><a href="../symbols/s_eventDelegator-Event.html#.removeEvent">removeEvent</a></b>(element, type, callback, capture, owner, validator)                                </div>                                <div class="description"></div>                            </td>                        </tr>                                        </tbody>                </table>                                                            <!-- ============================== events summary ======================== -->            <!-- ============================== scope info ============================= -->                                    <div class="details"><a name="constructor"> </a>                <div class="sectionTitle">                    Scope Info                </div>                                                                                                                <div class="scopeName">s_eventDelegator</div>                                                <dl class="inheritsList">                <dt>Variables defined in scope <a href="../symbols/s_eventDelegator.html">s_eventDelegator</a>: </dt><dd><a href="../symbols/s_eventDelegator-Event.html">Event</a>, <a href="../symbols/s_eventDelegator.html#-EventCache">EventCache</a>, <a href="../symbols/s_eventDelegator.html#-expando">expando</a></dd>                </dl>                                                <dl class="inheritsList">                <dt>Functions defined in scope <a href="../symbols/s_eventDelegator.html">s_eventDelegator</a>: </dt><dd><a href="../symbols/s_eventDelegator.html#-compareEventNamespace">compareEventNamespace</a>, <a href="../symbols/s_eventDelegator.html#-Controller">Controller</a>, <a href="../symbols/s_eventDelegator.html#-fixEvent">fixEvent</a>, <a href="../symbols/s_eventDelegator.html#-getControllerType">getControllerType</a>, <a href="../symbols/s_eventDelegator.html#-getControlType">getControlType</a>, <a href="../symbols/s_eventDelegator.html#-readEventNamespace">readEventNamespace</a>, <a href="../symbols/s_eventDelegator.html#-WindowController">WindowController</a></dd>                </dl>                                            </div>                        <!-- ============================== constructor details ==================== -->                                <div class="details"><a name="constructor"> </a>                <div class="sectionTitle">                    Namespace Detail                </div>                                <div class="fixedFont">&lt;inner&gt;                         <b>s_eventDelegator-Event</b>                </div>                                <div class="description">                                                        </div>                                                                                                                                                                                                                        </div>            <!-- ============================== field details ========================== -->                    <!-- ============================== method details ========================= -->                                    <div class="sectionTitle">                    Method Detail                </div>                                    <a name=".addEvent"> </a>                    <div class="fixedFont">&lt;static&gt;                                                             <span class="light">Event.</span><b>addEvent</b>(element, type, callback, capture, owner, validator, data, bubble)                                        </div>                    <div class="description">                      <p><i>Defined in: </i> <a href="../symbols/src/lite_eventDelegator.js.html#L144">eventDelegator.js (line 144)</a>.</p>                                                                    </div>                                                                                                                <dl class="detailList">                            <dt class="heading">Parameters:</dt>                                                            <dt>                                    <b>element</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>type</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>callback</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>capture</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>owner</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>validator</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>data</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>bubble</b>                                                                    </dt>                                <dd></dd>                                                        </dl>                                                                                                                                                                                            <hr />                                    <a name=".removeEvent"> </a>                    <div class="fixedFont">&lt;static&gt;                                                             <span class="light">Event.</span><b>removeEvent</b>(element, type, callback, capture, owner, validator)                                        </div>                    <div class="description">                      <p><i>Defined in: </i> <a href="../symbols/src/lite_eventDelegator.js.html#L235">eventDelegator.js (line 235)</a>.</p>                                                                    </div>                                                                                                                <dl class="detailList">                            <dt class="heading">Parameters:</dt>                                                            <dt>                                    <b>element</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>type</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>callback</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>capture</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>owner</b>                                                                    </dt>                                <dd></dd>                                                            <dt>                                    <b>validator</b>                                                                    </dt>                                <dd></dd>                                                        </dl>                                                                                                                                                                                                                                    <!-- ============================== event details ========================= -->                                            <hr />        </div>        <!-- ============================== footer ================================= -->        <div class="fineprint" style="clear:both">            &copy;2008<br />            Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jul 27 2011 12:20:15 GMT-0300 (BRT)        </div>    </div></body></html>
