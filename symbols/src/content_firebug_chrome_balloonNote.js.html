@@ -1,0 +1,66 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/* See license.txt for terms of usage */</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="STRN">"firebug/lib/domplate"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">Domplate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="COMM">// Constants</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="NAME">Firebug.BalloonNote</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">object</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="NAME">this.initialize</span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">object</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="KEYW">with</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Domplate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="NAME">Firebug.BalloonNote.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">domplate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="NAME">tag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">        </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloon"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$onClick"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonTop1"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">                </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonTop2"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonInner1"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">                </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonInner2"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">                    </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonInner3"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">                        </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonInner4"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">                            </span><span class="NAME">IMG</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonCloseButton closeButton"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">src</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"blank.gif"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">                                </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$onCloseAction"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">                            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonContent"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">                                </span><span class="NAME">TAG</span><span class="PUNC">(</span><span class="STRN">"$cause|getContentTag"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">cause</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$cause"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">                            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">                        </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">                    </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonBottom1"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">                </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"balloonBottom2"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">getContentTag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">object</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="NAME">object.message</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">onCloseAction</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="WHIT">    </span><span class="COMM">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">    </span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">object</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="COMM">// xxxHonza: TODO: this object should implement the whole show/hide logic</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="COMM">// move from Firebug.BreakNotification</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span></pre></body></html>

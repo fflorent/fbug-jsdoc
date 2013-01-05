@@ -1,0 +1,711 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/* See license.txt for terms of usage */</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/object"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/firebug"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/domplate"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/locale"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/xpcom"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/events"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/chrome/window"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/css"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/dom"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/string"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/fonts"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/url"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/http"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/net/netUtils"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/options"</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">Obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firebug</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Domplate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Locale</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Xpcom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Events</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Win</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Css</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Dom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Str</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Fonts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Http</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">NetUtils</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="COMM">// List of font content types</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">contentTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="STRN">"application/x-woff"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="STRN">"application/x-font-woff"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="STRN">"application/x-ttf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="STRN">"application/x-font-ttf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="STRN">"font/ttf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="STRN">"application/x-otf"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="STRN">"application/x-font-otf"</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="COMM">// Model implementation</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="NAME">Firebug.FontViewerModel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Obj.extend</span><span class="PUNC">(</span><span class="NAME">Firebug.Module</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="NAME">dispatchName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontViewer"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">    </span><span class="NAME">contentTypes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">contentTypes</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.TabCacheModel.addListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.NetMonitor.NetInfoBody.addListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.registerUIListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="WHIT">    </span><span class="NAME">shutdown</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.TabCacheModel.removeListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.NetMonitor.NetInfoBody.removeListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.unregisterUIListener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 60</span>      * Checks whether the given file name and content are a valid font file
+<span class='line'> 61</span>      * 
+<span class='line'> 62</span>      * @param contentType: MIME type of the file
+<span class='line'> 63</span>      * @param url: URL of the file
+<span class='line'> 64</span>      * @param data: File contents
+<span class='line'> 65</span>      * @return True, if the given data outlines a font file, otherwise false
+<span class='line'> 66</span>      */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">    </span><span class="NAME">isFont</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">contentType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">contentType</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">NetUtils.matchesContentType</span><span class="PUNC">(</span><span class="NAME">contentType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contentTypes</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_FONTS</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">                </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"fontviewer.isFont; content type: "</span><span class="PUNC">+</span><span class="NAME">contentType</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">                    </span><span class="PUNC">{</span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="WHIT">        </span><span class="COMM">// Workaround for font responses without proper content type</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">        </span><span class="COMM">// Let's consider all responses starting with "wOFF" as font. In the worst</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">        </span><span class="COMM">// case there will be an exception when parsing. This means that no-font</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">        </span><span class="COMM">// responses (and post data) (with "wOFF") can be parsed unnecessarily,</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">        </span><span class="COMM">// which represents a little overhead, but this happens only if the request</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="COMM">// is actually expanded by the user in the UI (Net & Console panel).</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">extension</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Url.getFileExtension</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">validExtension</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="REGX">/woff|otf|ttf/</span><span class="PUNC">.</span><span class="NAME">exec</span><span class="PUNC">(</span><span class="NAME">extension</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">validExtension</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">Str.hasPrefix</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"wOFF"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">Str.hasPrefix</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"OTTO"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_FONTS</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">                </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"fontviewer.isFont; Font without proper content type"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">                    </span><span class="PUNC">{</span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">        </span><span class="NAME">contentType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">contentType.split</span><span class="PUNC">(</span><span class="STRN">";"</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">        </span><span class="NAME">contentType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Str.trim</span><span class="PUNC">(</span><span class="NAME">contentType</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">contentTypes</span><span class="PUNC">[</span><span class="NAME">contentType</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>106</span> 
+<span class='line'>107</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>108</span>      * Parses the file and returns information about the font
+<span class='line'>109</span>      * 
+<span class='line'>110</span>      * @param file: File to parse
+<span class='line'>111</span>      * @return Font related information
+<span class='line'>112</span>      */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">    </span><span class="NAME">parseFont</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Fonts.getFontInfo</span><span class="PUNC">(</span><span class="NAME">Firebug.currentContext</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file.href</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="COMM">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">    </span><span class="COMM">// TabCacheModel listener</span><span class="WHIT">
+<span class='line'>120</span> 
+<span class='line'>121</span> </span><span class="WHIT">    </span><span class="NAME">shouldCacheRequest</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">request</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isFont</span><span class="PUNC">(</span><span class="NAME">request.contentType</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">request.name</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> 
+<span class='line'>126</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="COMM">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="COMM">// NetInfoBody listener</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="WHIT">    </span><span class="NAME">updateResponse</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">netInfoBox</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">        </span><span class="COMM">// Let listeners parse the font</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">        </span><span class="NAME">Events.dispatch</span><span class="PUNC">(</span><span class="NAME">this.fbListeners</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onParseFont"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">file</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="COMM">// The font is still not there, try to parse most common cases</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">file.fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isFont</span><span class="PUNC">(</span><span class="NAME">Http.safeGetContentType</span><span class="PUNC">(</span><span class="NAME">file.request</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file.href</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file.responseText</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">                </span><span class="NAME">file.fontObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.parseFont</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">file.fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">responseTextBox</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">netInfoBox.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"netInfoResponseText"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">            </span><span class="NAME">this.Preview.render</span><span class="PUNC">(</span><span class="NAME">responseTextBox</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">            </span><span class="NAME">netInfoBox.responsePresented</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_FONTS</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">                </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"fontviewer.updateResponse"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="KEYW">with</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Domplate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="NAME">Firebug.FontViewerModel.Preview</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">domplate</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">    </span><span class="NAME">bodyTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">        </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfo"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_repObject</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$fontObject"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoGroup fontInfoGeneralInfoTitle"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">                </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.General Info"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">            </span><span class="NAME">TABLE</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">cellpadding</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cellspacing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">                </span><span class="NAME">TBODY</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoGeneralInfoBody"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"list"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">                    </span><span class="STRN">"aria-label"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.General Info"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoGroup fontInfoMetaDataTitle"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">                </span><span class="NAME">$collapsed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$fontObject|noMetaData"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">                </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.Meta Data"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">                </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoToggleView"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$onToggleView"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">                    </span><span class="NAME">_sourceDisplayed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_rowName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"MetaData"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">                    </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.view source"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">            </span><span class="NAME">TABLE</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">cellpadding</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cellspacing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">                </span><span class="NAME">TBODY</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoMetaDataBody"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"list"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">                    </span><span class="STRN">"aria-label"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.Meta Data"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoGroup fontInfoPreviewTitle"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">                </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.Preview"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">                </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoToggleView"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$onToggleView"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">                  </span><span class="NAME">_lettersDisplayed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_rowName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"Preview"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">                  </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.view characters"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoPreview"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">                </span><span class="NAME">STYLE</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoPreviewStyle"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">                </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoPreviewSample"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">                    </span><span class="NAME">FOR</span><span class="PUNC">(</span><span class="STRN">"style"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$styles"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">                        </span><span class="NAME">P</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$fontObject.CSSFamilyName|getFontFaceClass"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">                            </span><span class="STRN">"style"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"font-size: $style|getFontSize"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">                            </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontViewerFontSize"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$style"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">                            </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.pangram"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">                        </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">                    </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">                </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoPreviewCharacters"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">                    </span><span class="NAME">FOR</span><span class="PUNC">(</span><span class="STRN">"charType"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$charTypes"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">                        </span><span class="NAME">P</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$fontObject.CSSFamilyName|getFontFaceClass"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">                            </span><span class="STRN">"$charType|getCharacters"</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">                        </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">                    </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">    </span><span class="NAME">propDataTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">        </span><span class="NAME">FOR</span><span class="PUNC">(</span><span class="STRN">"prop"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$props"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">            </span><span class="NAME">TR</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"listitem"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">_repObject</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$prop.node"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">                </span><span class="NAME">TD</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoPropName"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"presentation"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">                    </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="STRN">"$prop|getPropName"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">                </span><span class="NAME">TD</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoPropValue"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"list"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"aria-label"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$prop.name"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">                    </span><span class="NAME">TAG</span><span class="PUNC">(</span><span class="STRN">"$prop|getTag"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$prop.node"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>221</span> 
+<span class='line'>222</span> </span><span class="WHIT">    </span><span class="NAME">sourceTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">        </span><span class="NAME">TR</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"presentation"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">            </span><span class="NAME">TD</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">colspan</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"presentation"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">                </span><span class="NAME">PRE</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"source"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>228</span> 
+<span class='line'>229</span> </span><span class="WHIT">    </span><span class="NAME">translatedInfoTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">        </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoTranslatedInfo"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoLangInfo"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">                </span><span class="NAME">FOR</span><span class="PUNC">(</span><span class="STRN">"lang"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$node|getLanguages"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">                    </span><span class="NAME">A</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoLangTab"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$selected</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$lang.selected"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">role</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"tab"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">                        </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$onTranslatedLangChange"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$lang.name"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">            </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoTranslatedContent"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">                </span><span class="STRN">"$node|getTranslatedText"</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>241</span> 
+<span class='line'>242</span> </span><span class="WHIT">    </span><span class="NAME">vendorTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">        </span><span class="NAME">TAG</span><span class="PUNC">(</span><span class="STRN">"$node|getLinkedTextTag"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$node"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>244</span> 
+<span class='line'>245</span> </span><span class="WHIT">    </span><span class="NAME">licenseTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">        </span><span class="NAME">DIV</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoLicense"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">            </span><span class="NAME">TAG</span><span class="PUNC">(</span><span class="STRN">"$node|getLinkedTextTag"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$node"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">            </span><span class="NAME">TAG</span><span class="PUNC">(</span><span class="STRN">"$translatedInfoTag"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$node"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="WHIT">    </span><span class="NAME">creditsTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">        </span><span class="NAME">UL</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoCredits"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">            </span><span class="NAME">FOR</span><span class="PUNC">(</span><span class="STRN">"credit"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$node|getCredits"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">                </span><span class="NAME">LI</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">                    </span><span class="NAME">TAG</span><span class="PUNC">(</span><span class="STRN">"$credit|getLinkedTextTag"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$credit"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">                    </span><span class="STRN">" "</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">                    </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoCreditsRole"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"$credit|getRole"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">                </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">        </span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>261</span> 
+<span class='line'>262</span> </span><span class="WHIT">    </span><span class="NAME">linkTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">        </span><span class="NAME">A</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"fontInfoLink"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">href</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$node|getUrl"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">onclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"$onOpenUrl"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">            </span><span class="STRN">"$node|getLinkName"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span> </span><span class="WHIT">    </span><span class="NAME">textTag</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">        </span><span class="NAME">SPAN</span><span class="PUNC">(</span><span class="STRN">"$node|getText"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>268</span> 
+<span class='line'>269</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>270</span>      * Handles toggling of the font information display
+<span class='line'>271</span>      * 
+<span class='line'>272</span>      * @param event: Click event
+<span class='line'>273</span>      */</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">    </span><span class="NAME">onToggleView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.target</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fontInfo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Dom.getAncestorByClass</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"fontInfo"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fontObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fontInfo.repObject</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>279</span> 
+<span class='line'>280</span> </span><span class="WHIT">        </span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">target.rowName</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"MetaData"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">target.sourceDisplayed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">                    </span><span class="NAME">this.insertMetaDataFormatted</span><span class="PUNC">(</span><span class="NAME">fontInfo</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontObject.metadata</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">                    </span><span class="NAME">target.textContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.view source"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">                </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">                    </span><span class="NAME">this.insertMetaDataSource</span><span class="PUNC">(</span><span class="NAME">fontInfo</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontObject.metadata</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">                    </span><span class="NAME">target.textContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.pretty print"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">                </span><span class="NAME">target.sourceDisplayed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">target.sourceDisplayed</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">                </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"Preview"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sample</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fontInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoPreviewSample"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">chars</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fontInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoPreviewCharacters"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">target.lettersDisplayed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">                    </span><span class="NAME">sample.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"block"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">                    </span><span class="NAME">chars.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"none"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">                    </span><span class="NAME">target.textContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.view characters"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">                </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">                    </span><span class="NAME">sample.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"none"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">                    </span><span class="NAME">chars.style.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"block"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">                    </span><span class="NAME">target.textContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.view sample"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">                </span><span class="NAME">target.lettersDisplayed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">target.lettersDisplayed</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">                </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>315</span> 
+<span class='line'>316</span> </span><span class="WHIT">    </span><span class="COMM">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">    </span><span class="COMM">// Meta data</span><span class="WHIT">
+<span class='line'>318</span> 
+<span class='line'>319</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>320</span>      * Checks, whether the font contains meta data
+<span class='line'>321</span>      * 
+<span class='line'>322</span>      * @param fontObject: Font related information
+<span class='line'>323</span>      * @return True, if font contains meta data, otherwise false
+<span class='line'>324</span>      */</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">    </span><span class="NAME">noMetaData</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">fontObject.metadata</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>329</span> 
+<span class='line'>330</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>331</span>      * Selects the corresponding Domplate template related to a given meta data property
+<span class='line'>332</span>      * 
+<span class='line'>333</span>      * @param prop: Meta data property
+<span class='line'>334</span>      * @return Domplate template related to the property
+<span class='line'>335</span>      */</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">    </span><span class="NAME">getTag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">prop.tag</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">prop.tag</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.textTag</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>340</span> 
+<span class='line'>341</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>342</span>      * Returns the translated property name
+<span class='line'>343</span>      * 
+<span class='line'>344</span>      * @param prop: Meta data property
+<span class='line'>345</span>      * @return Translated name of the property
+<span class='line'>346</span>      */</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">    </span><span class="NAME">getPropName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">prop.name</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">prop.name</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer."</span><span class="PUNC">+</span><span class="NAME">prop.node.nodeName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>351</span> 
+<span class='line'>352</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>353</span>      * Returns the text of a meta data property or a string
+<span class='line'>354</span>      * 
+<span class='line'>355</span>      * @param value: Meta data property or string
+<span class='line'>356</span>      * @return String representing the text related to the property
+<span class='line'>357</span>      */</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">    </span><span class="NAME">getText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> 
+<span class='line'>363</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value.getAttribute</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">value.getAttribute</span><span class="PUNC">(</span><span class="STRN">"name"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> 
+<span class='line'>367</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">value.textContent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>369</span> 
+<span class='line'>370</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>371</span>      * Opens a URL in a new browser tab
+<span class='line'>372</span>      * 
+<span class='line'>373</span>      * @param event: Click event
+<span class='line'>374</span>      */</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">    </span><span class="NAME">onOpenUrl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">        </span><span class="NAME">Win.openNewTab</span><span class="PUNC">(</span><span class="NAME">event.target.getAttribute</span><span class="PUNC">(</span><span class="STRN">"href"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">        </span><span class="NAME">Events.cancelEvent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>380</span> 
+<span class='line'>381</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>382</span>      * Returns either text or a linked text depending on a URL to be present of a
+<span class='line'>383</span>      * meta data property
+<span class='line'>384</span>      * 
+<span class='line'>385</span>      * @param node: Meta data property node
+<span class='line'>386</span>      * @return Text or linked text
+<span class='line'>387</span>      */</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">    </span><span class="NAME">getLinkedTextTag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getUrl</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.linkTag</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">        </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.textTag</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>395</span> 
+<span class='line'>396</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>397</span>      * Returns the URL of a meta data property
+<span class='line'>398</span>      * 
+<span class='line'>399</span>      * @param node: Meta data property node
+<span class='line'>400</span>      * @return URL of the meta data property
+<span class='line'>401</span>      */</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">    </span><span class="NAME">getUrl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">"url"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>406</span> 
+<span class='line'>407</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>408</span>      * Returns the name of a link related to a meta data property
+<span class='line'>409</span>      * 
+<span class='line'>410</span>      * @param node: Meta data property node
+<span class='line'>411</span>      * @return Link name of the meta data property
+<span class='line'>412</span>      */</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">    </span><span class="NAME">getLinkName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">"name"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">"url"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>417</span> 
+<span class='line'>418</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>419</span>      * Returns an array of font credits
+<span class='line'>420</span>      * 
+<span class='line'>421</span>      * @param node: Meta data property node
+<span class='line'>422</span>      * @return Credits
+<span class='line'>423</span>      */</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">    </span><span class="NAME">getCredits</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Array.prototype.slice.call</span><span class="PUNC">(</span><span class="NAME">node.children</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>428</span> 
+<span class='line'>429</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>430</span>      * Returns the role of a contributor of the font
+<span class='line'>431</span>      * 
+<span class='line'>432</span>      * @param node: Meta data property node
+<span class='line'>433</span>      * @return Contributor role
+<span class='line'>434</span>      */</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">    </span><span class="NAME">getRole</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">role</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.getAttribute</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">role</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"("</span><span class="PUNC">+</span><span class="NAME">role</span><span class="PUNC">+</span><span class="STRN">")"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>440</span> 
+<span class='line'>441</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>442</span>      * Returns the available languages of a translated meta data property text
+<span class='line'>443</span>      * 
+<span class='line'>444</span>      * @param node: Meta data property node
+<span class='line'>445</span>      * @return Array of languages
+<span class='line'>446</span>      */</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">    </span><span class="NAME">getLanguages</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">texts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Array.prototype.slice.call</span><span class="PUNC">(</span><span class="NAME">node.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">"text"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">langs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">defaultLang</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDefaultLang</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">        </span><span class="NAME">texts.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">a</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lang</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e.getAttribute</span><span class="PUNC">(</span><span class="STRN">"lang"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">            </span><span class="NAME">langs.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">lang</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">lang</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">defaultLang</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>456</span> 
+<span class='line'>457</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">langs</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>459</span> 
+<span class='line'>460</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>461</span>      * Returns the default language of a meta data property
+<span class='line'>462</span>      * 
+<span class='line'>463</span>      * @param node: Meta data property node
+<span class='line'>464</span>      * @return Language
+<span class='line'>465</span>      */</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">    </span><span class="NAME">getDefaultLang</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">localeDomain</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"general.useragent"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">localeName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"locale"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">localeValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Options.getPref</span><span class="PUNC">(</span><span class="NAME">localeDomain</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">localeName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> 
+<span class='line'>472</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">node.querySelector</span><span class="PUNC">(</span><span class="STRN">"text[lang="</span><span class="PUNC">+</span><span class="NAME">localeValue</span><span class="PUNC">+</span><span class="STRN">"]"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">localeValue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span> 
+<span class='line'>475</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">node.querySelector</span><span class="PUNC">(</span><span class="STRN">"text[lang=en]"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"en"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>477</span> 
+<span class='line'>478</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">node.firstElementChild</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">node.firstElementChild.getAttribute</span><span class="PUNC">(</span><span class="STRN">"lang"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>480</span> 
+<span class='line'>481</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>483</span> 
+<span class='line'>484</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>485</span>      * Returns the translated text of meta data property
+<span class='line'>486</span>      * 
+<span class='line'>487</span>      * @param node: Meta data property node
+<span class='line'>488</span>      * @param lang: Language of the text
+<span class='line'>489</span>      * @return Translated text
+<span class='line'>490</span>      */</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">    </span><span class="NAME">getTranslatedText</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">lang</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">lang</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">            </span><span class="NAME">lang</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDefaultLang</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>495</span> 
+<span class='line'>496</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">lang</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.querySelector</span><span class="PUNC">(</span><span class="STRN">"text[lang="</span><span class="PUNC">+</span><span class="NAME">lang</span><span class="PUNC">+</span><span class="STRN">"]"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>500</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element.textContent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>502</span> 
+<span class='line'>503</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>505</span> 
+<span class='line'>506</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>507</span>      * Displays the XML source of the meta data
+<span class='line'>508</span>      * 
+<span class='line'>509</span>      * @param fontInfo: Font related information
+<span class='line'>510</span>      * @param source: XML source of the meta data
+<span class='line'>511</span>      */</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">    </span><span class="NAME">insertMetaDataSource</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fontInfo</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">source</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tbody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fontInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoMetaDataBody"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.sourceTag.replace</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tbody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sourceNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"source"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="WHIT">        </span><span class="NAME">Str.insertWrappedText</span><span class="PUNC">(</span><span class="NAME">source</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sourceNode</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>519</span> 
+<span class='line'>520</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>521</span>      * Displays the meta data information formatted
+<span class='line'>522</span>      * 
+<span class='line'>523</span>      * @param fontInfo: Font related information
+<span class='line'>524</span>      * @param source: XML source of the meta data
+<span class='line'>525</span>      */</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">    </span><span class="NAME">insertMetaDataFormatted</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fontInfo</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">source</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tbody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fontInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoMetaDataBody"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parser</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Xpcom.CCIN</span><span class="PUNC">(</span><span class="STRN">"@mozilla.org/xmlextras/domparser;1"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"nsIDOMParser"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parser.parseFromString</span><span class="PUNC">(</span><span class="NAME">source</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"text/xml"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">root</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">doc.documentElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>532</span> 
+<span class='line'>533</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_FONTS</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"fontviewer.insertMetaDataFormatted; XML"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>535</span> 
+<span class='line'>536</span> </span><span class="WHIT">        </span><span class="NAME">Dom.clearNode</span><span class="PUNC">(</span><span class="NAME">tbody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>537</span> 
+<span class='line'>538</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">props</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">propValueTemplates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">            </span><span class="NAME">vendor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.vendorTag</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">            </span><span class="NAME">credits</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.creditsTag</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">            </span><span class="NAME">description</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.translatedInfoTag</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">            </span><span class="NAME">copyright</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.translatedInfoTag</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">            </span><span class="NAME">trademark</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.translatedInfoTag</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>545</span> </span><span class="WHIT">            </span><span class="NAME">license</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel.Preview.licenseTag</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>547</span> 
+<span class='line'>548</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">root.children.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">child</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">root.children</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>551</span> </span><span class="WHIT">            </span><span class="NAME">props.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">tag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">propValueTemplates</span><span class="PUNC">[</span><span class="NAME">child.nodeName</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">child</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>552</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>553</span> 
+<span class='line'>554</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_FONTS</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"fontviewer.insertMetaDataFormatted; props"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">props</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span> 
+<span class='line'>557</span> </span><span class="WHIT">        </span><span class="NAME">tbody.repObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">root</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>558</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.FontViewerModel.Preview.propDataTag.insertRows</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">props</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">props</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tbody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>560</span> 
+<span class='line'>561</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>562</span>      * Handles text language changes
+<span class='line'>563</span>      * 
+<span class='line'>564</span>      * @param event: Click event
+<span class='line'>565</span>      */</span><span class="WHIT">
+<span class='line'>566</span> </span><span class="WHIT">    </span><span class="NAME">onTranslatedLangChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.target</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">translatedInfo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Dom.getAncestorByClass</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"fontInfoTranslatedInfo"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>570</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">translatedInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"selected"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">        </span><span class="NAME">Css.removeClass</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"selected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>572</span> </span><span class="WHIT">        </span><span class="NAME">Css.setClass</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"selected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>573</span> 
+<span class='line'>574</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">translatedInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoTranslatedContent"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">        </span><span class="NAME">content.textContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getTranslatedText</span><span class="PUNC">(</span><span class="NAME">Firebug.getRepObject</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">            </span><span class="NAME">target.textContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>578</span> 
+<span class='line'>579</span> </span><span class="WHIT">    </span><span class="COMM">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">    </span><span class="COMM">// Preview</span><span class="WHIT">
+<span class='line'>581</span> 
+<span class='line'>582</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>583</span>      * Returns the CSS font-face class name
+<span class='line'>584</span>      * 
+<span class='line'>585</span>      * @param cssFamilyName: CSS name of the font family
+<span class='line'>586</span>      * @return Name of the font-face class
+<span class='line'>587</span>      */</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">    </span><span class="NAME">getFontFaceClass</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">cssFamilyName</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"fontFacePreview"</span><span class="PUNC">+</span><span class="NAME">cssFamilyName.replace</span><span class="PUNC">(</span><span class="REGX">/[^a-z0-9_]/ig</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>592</span> 
+<span class='line'>593</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>594</span>      * Returns the font size CSS
+<span class='line'>595</span>      * 
+<span class='line'>596</span>      * @param size: Font size
+<span class='line'>597</span>      * @return Font size CSS
+<span class='line'>598</span>      */</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">    </span><span class="NAME">getFontSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">size</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">+</span><span class="STRN">"pt"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>603</span> 
+<span class='line'>604</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>605</span>      * Returns the characters used for the font preview
+<span class='line'>606</span>      * 
+<span class='line'>607</span>      * @param charType: Type of characters to return
+<span class='line'>608</span>      * @return Preview characters
+<span class='line'>609</span>      */</span><span class="WHIT">
+<span class='line'>610</span> </span><span class="WHIT">    </span><span class="NAME">getCharacters</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">charType</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">        </span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">charType</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"lowercase"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>615</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"abcdefghijklmnopqrstuvwxyz"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>616</span> 
+<span class='line'>617</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"uppercase"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>618</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>619</span> 
+<span class='line'>620</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"numbersAndSpecialChars"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>621</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"0123456789.:,;(\"*!?')"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>623</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>624</span> 
+<span class='line'>625</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>626</span>      * Returns the CSS for the @font-face CSS
+<span class='line'>627</span>      * 
+<span class='line'>628</span>      * @param fontObject: Font related information
+<span class='line'>629</span>      * @return @font-face CSS
+<span class='line'>630</span>      */</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">    </span><span class="NAME">getFontFaceCss</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>633</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fontFaceClass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getFontFaceClass</span><span class="PUNC">(</span><span class="NAME">fontObject.CSSFamilyName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">fontObject.rule.cssText.replace</span><span class="PUNC">(</span><span class="REGX">/url\(.*?\)/g</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"url("</span><span class="PUNC">+</span><span class="NAME">fontObject.URI</span><span class="PUNC">+</span><span class="STRN">")"</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">            </span><span class="STRN">" ."</span><span class="PUNC">+</span><span class="NAME">fontFaceClass</span><span class="PUNC">+</span><span class="STRN">" {font-family: \""</span><span class="PUNC">+</span><span class="NAME">fontObject.CSSFamilyName</span><span class="PUNC">+</span><span class="STRN">"\";}"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>637</span> 
+<span class='line'>638</span> </span><span class="WHIT">    </span><span class="COMM">// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //</span><span class="WHIT">
+<span class='line'>639</span> 
+<span class='line'>640</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>641</span>      * Displays general information about the font
+<span class='line'>642</span>      * 
+<span class='line'>643</span>      * @param body: Node containing the font information display
+<span class='line'>644</span>      * @param fontObject: Font related information
+<span class='line'>645</span>      */</span><span class="WHIT">
+<span class='line'>646</span> </span><span class="WHIT">    </span><span class="NAME">insertGeneralInfo</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">body</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>647</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>648</span> 
+<span class='line'>649</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fontInfo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">body.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfo"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>650</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tbody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fontInfo.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoGeneralInfoBody"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>651</span> 
+<span class='line'>652</span> </span><span class="WHIT">        </span><span class="NAME">Dom.clearNode</span><span class="PUNC">(</span><span class="NAME">tbody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>653</span> 
+<span class='line'>654</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>655</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">props</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>657</span> </span><span class="WHIT">            </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>658</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.Name"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fontObject.name</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>659</span>                 </span><span class="PUNC">{</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.CSS Family Name"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fontObject.CSSFamilyName</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>660</span> </span><span class="WHIT">                </span><span class="PUNC">{</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Locale.$STR</span><span class="PUNC">(</span><span class="STRN">"fontviewer.Format"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">node</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fontObject.format</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>661</span> </span><span class="WHIT">            </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">            </span><span class="NAME">Firebug.FontViewerModel.Preview.propDataTag.insertRows</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">props</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">props</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tbody</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>664</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>665</span> 
+<span class='line'>666</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>667</span>      * Renders the font display
+<span class='line'>668</span>      * 
+<span class='line'>669</span>      * @param body: Node containing the font information display
+<span class='line'>670</span>      * @param file: Font file to be displayed
+<span class='line'>671</span>      * @param context: Related context
+<span class='line'>672</span>      */</span><span class="WHIT">
+<span class='line'>673</span> </span><span class="WHIT">    </span><span class="NAME">render</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">body</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>674</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>675</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fontObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.fontObject</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>676</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">fontObject</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>677</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>678</span> 
+<span class='line'>679</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">styles</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NUMB">10</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">14</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">18</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>680</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">charTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"lowercase"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"uppercase"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"numbersAndSpecialChars"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>681</span> 
+<span class='line'>682</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.bodyTag.replace</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">fontObject</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fontObject</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">styles</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">styles</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>683</span> </span><span class="WHIT">            </span><span class="NAME">charTypes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">charTypes</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">body</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>684</span> 
+<span class='line'>685</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">styleNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">node.getElementsByClassName</span><span class="PUNC">(</span><span class="STRN">"fontInfoPreviewStyle"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">item</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>686</span> </span><span class="WHIT">        </span><span class="NAME">styleNode.innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getFontFaceCss</span><span class="PUNC">(</span><span class="NAME">fontObject</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>687</span> 
+<span class='line'>688</span> </span><span class="WHIT">        </span><span class="NAME">this.insertGeneralInfo</span><span class="PUNC">(</span><span class="NAME">body</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">file.fontObject</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>689</span> 
+<span class='line'>690</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fontObject.metadata</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>691</span> </span><span class="WHIT">            </span><span class="NAME">this.insertMetaDataFormatted</span><span class="PUNC">(</span><span class="NAME">body</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fontObject.metadata</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>692</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>693</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>694</span> 
+<span class='line'>695</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>696</span> </span><span class="COMM">// Registration</span><span class="WHIT">
+<span class='line'>697</span> 
+<span class='line'>698</span> </span><span class="NAME">Firebug.registerModule</span><span class="PUNC">(</span><span class="NAME">Firebug.FontViewerModel</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>699</span> 
+<span class='line'>700</span> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Firebug.FontViewerModel</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>701</span> 
+<span class='line'>702</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>703</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>704</span> </span></pre></body></html>

@@ -1,0 +1,229 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/* See license.txt for terms of usage */</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// Module</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">EXPORTED_SYMBOLS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"CompilationUnit"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="COMM">// Compilation Unit</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="COMM">/**
+<span class='line'> 14</span>  * Describes a compilation unit in a browser context. A compilation unit
+<span class='line'> 15</span>  * may originate from a JavaScript source file or a script element in HTML.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * @constructor
+<span class='line'> 18</span>  * @param url compilation unit URL - a {@link String} or &lt;code>null&lt;/code> if none
+<span class='line'> 19</span>  * @param context the {@link BrowserContext} this compilation unit is contained in
+<span class='line'> 20</span>  * @type CompilationUnit
+<span class='line'> 21</span>  * @return a new CompilationUnit
+<span class='line'> 22</span>  * @version 1.0
+<span class='line'> 23</span>  */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">CompilationUnit</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="NAME">this.url</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">this.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">this.breakpoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="NAME">this.numberOfLines</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="NAME">this.kind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">CompilationUnit.SCRIPT_TAG</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="COMM">// Compatibility with SourceLink. There are places where 'href' field is expected.</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="COMM">// xxxHonza: should be investigated in 1.9</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">this.href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="COMM">/**
+<span class='line'> 38</span>  * Kinds of Compilation Units
+<span class='line'> 39</span>  */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="NAME">CompilationUnit.SCRIPT_TAG</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"script_tag"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="NAME">CompilationUnit.EVAL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"eval"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="NAME">CompilationUnit.BROWSER_GENERATED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"event"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="COMM">// API</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="COMM">/**
+<span class='line'> 48</span>  * Returns the Kind of Compilation Unit
+<span class='line'> 49</span>  * &lt;p>
+<span class='line'> 50</span>  * This function does not require communication with
+<span class='line'> 51</span>  * the browser.
+<span class='line'> 52</span>  * &lt;/p>
+<span class='line'> 53</span>  */</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="NAME">CompilationUnit.prototype.getKind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">getKind</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.kind</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="NAME">CompilationUnit.prototype.isExecutableLine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">isExecutableLine</span><span class="PUNC">(</span><span class="NAME">lineNo</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="COMM">// TODO no sourceFiles!</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.sourceFile.isExecutableLine</span><span class="PUNC">(</span><span class="NAME">lineNo</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">/**
+<span class='line'> 66</span>  * Returns the URL of this compilation unit.
+<span class='line'> 67</span>  * &lt;p>
+<span class='line'> 68</span>  * This function does not require communication with
+<span class='line'> 69</span>  * the browser.
+<span class='line'> 70</span>  * &lt;/p>
+<span class='line'> 71</span>  *
+<span class='line'> 72</span>  * @function
+<span class='line'> 73</span>  * @returns compilation unit identifier as a {@link String}
+<span class='line'> 74</span>  */</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="NAME">CompilationUnit.prototype.getURL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.url</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="COMM">/**
+<span class='line'> 81</span>  * Returns the browser context this compilation unit was compiled in.
+<span class='line'> 82</span>  * &lt;p>
+<span class='line'> 83</span>  * This function does not require communication with
+<span class='line'> 84</span>  * the browser.
+<span class='line'> 85</span>  * &lt;/p>
+<span class='line'> 86</span>  *
+<span class='line'> 87</span>  * @function
+<span class='line'> 88</span>  * @returns a {@link BrowserContext}
+<span class='line'> 89</span>  */</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="NAME">CompilationUnit.prototype.getBrowserContext</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.context</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> 
+<span class='line'> 95</span> </span><span class="COMM">/**
+<span class='line'> 96</span>  * Returns the breakpoints that have been created in this compilation unit and
+<span class='line'> 97</span>  * have not been cleared.
+<span class='line'> 98</span>  * &lt;p>
+<span class='line'> 99</span>  * This function does not require communication with
+<span class='line'>100</span>  * the browser.
+<span class='line'>101</span>  * &lt;/p>
+<span class='line'>102</span>  * @function
+<span class='line'>103</span>  * @returns an array of {@link Breakpoint}'s
+<span class='line'>104</span>  */</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="NAME">CompilationUnit.prototype.getBreakpoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">    </span><span class="COMM">// Return a copy of the breakpoints, so the master copy is not corrupted.</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">bps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.breakpoints.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">        </span><span class="NAME">bps.push</span><span class="PUNC">(</span><span class="NAME">this.breakpoints</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">bps</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="NAME">CompilationUnit.prototype.eachBreakpoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">fnOfLineProps</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">     </span><span class="NAME">Firebug.Debugger.fbs.enumerateBreakpoints</span><span class="PUNC">(</span><span class="NAME">this.getURL</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">call</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">         </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">line</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">props</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">scripts</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">         </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">              </span><span class="NAME">fnOfLineProps</span><span class="PUNC">(</span><span class="NAME">line</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">props</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">     </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="COMM">/**
+<span class='line'>125</span>  * Requests the source of this compilation unit asynchronously. Source will be
+<span class='line'>126</span>  * retrieved from the browser and reported back to the listener function when available.
+<span class='line'>127</span>  * The handler may be called before or after this function returns.
+<span class='line'>128</span>  * &lt;p>
+<span class='line'>129</span>  * TODO: what if the compilation unit no longer exists in the browser
+<span class='line'>130</span>  * &lt;/p>
+<span class='line'>131</span>  * @function
+<span class='line'>132</span>  * @param firstLineNumber requested line number starting point; &lt; 1 means from lowest line number
+<span class='line'>133</span>  * @param lastLineNumber request last line number; &lt; 1 means up to maximum line
+<span class='line'>134</span>  * @param listener a listener (function) that accepts (compilationUnit, firstLineNumber,
+<span class='line'>135</span>  *      lastLineNumber, array of source code lines)
+<span class='line'>136</span>  */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="NAME">CompilationUnit.prototype.getSourceLines</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">firstLine</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">lastLine</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">listener</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">    </span><span class="COMM">// xxxHonza: Do not cache the source lines in the compilation unit.</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">    </span><span class="COMM">// The Script panel doesn't display the whole script if it's downloaded</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">    </span><span class="COMM">// partially and the following caching happens sooner.</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">    </span><span class="COMM">// Or tabCache.storeSplitLines should trigger an update.</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">    </span><span class="COMM">//if (!this.lines)</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="WHIT">    </span><span class="COMM">// TODO remove - a comment from xxxJJB.</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">    </span><span class="NAME">this.lines</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.sourceFile.loadScriptLines</span><span class="PUNC">(</span><span class="NAME">this.context</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> 
+<span class='line'>148</span> </span><span class="WHIT">    </span><span class="NAME">this.numberOfLines</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.lines</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.lines.length</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">    </span><span class="NAME">listener</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.numberOfLines</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.lines</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> 
+<span class='line'>152</span> </span><span class="COMM">/**
+<span class='line'>153</span>  * Request the current estimated number of source lines in the entire compilationUnit
+<span class='line'>154</span>  */</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="NAME">CompilationUnit.prototype.getNumberOfLines</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.numberOfLines</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="COMM">/**
+<span class='line'>161</span>  * Requests to create a breakpoint in this compilation unit asynchronously. A breakpoint
+<span class='line'>162</span>  * creation request will be sent to the browser and an &lt;code>onToggleBreakpoint&lt;/code>
+<span class='line'>163</span>  * event will be sent by the browser when the breakpoint is installed.
+<span class='line'>164</span>  * &lt;p>
+<span class='line'>165</span>  * &lt;ul>
+<span class='line'>166</span>  * &lt;li>TODO: onToggleBreakpoint event is not spec'd - is this the intended use?&lt;/li>
+<span class='line'>167</span>  * &lt;li>TODO: line number out of range&lt;/li>
+<span class='line'>168</span>  * &lt;li>TODO: compilation unit no longer exists in the browser&lt;/li>
+<span class='line'>169</span>  * &lt;li>TODO: breakpoint already set&lt;/li>
+<span class='line'>170</span>  * &lt;li>TODO: is line number 0 or 1 based&lt;/li>
+<span class='line'>171</span>  * &lt;/ul>
+<span class='line'>172</span>  * &lt;/p>
+<span class='line'>173</span>  * @function
+<span class='line'>174</span>  * @param lineNumber the source line number in this compilation unit to set the breakpoint on
+<span class='line'>175</span>  * @return the {@link Breakpoint} that was created
+<span class='line'>176</span>  */</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="COMM">// Private</span><span class="WHIT">
+<span class='line'>180</span> 
+<span class='line'>181</span> </span><span class="COMM">/**
+<span class='line'>182</span>  * Adds the specified breakpoint to this compilation unit's collection of breakpoints.
+<span class='line'>183</span>  * Implementation should call this method when a breakpoint is created in a compilation
+<span class='line'>184</span>  * unit.
+<span class='line'>185</span>  *
+<span class='line'>186</span>  * @param breakpoint the breakpoint that was created
+<span class='line'>187</span>  * @function
+<span class='line'>188</span>  */</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="NAME">CompilationUnit.prototype._addBreakpoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">breakpoint</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">    </span><span class="NAME">this.breakpoints.push</span><span class="PUNC">(</span><span class="NAME">breakpoint</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="COMM">/**
+<span class='line'>195</span>  * Removes the specified breakpoint from this compilation unit's collection of breakpoints.
+<span class='line'>196</span>  * Implementation should call this method when a breakpoint is cleared from a compilation
+<span class='line'>197</span>  * unit.
+<span class='line'>198</span>  *
+<span class='line'>199</span>  * @param breakpoint the breakpoint that was removed
+<span class='line'>200</span>  * @function
+<span class='line'>201</span>  */</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="NAME">CompilationUnit.prototype._removeBreakpoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">breakpoint</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.breakpoints.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.breakpoints</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">breakpoint</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">            </span><span class="NAME">this.breakpoints.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>213</span> 
+<span class='line'>214</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="COMM">// CommonJS</span><span class="WHIT">
+<span class='line'>216</span> 
+<span class='line'>217</span> </span><span class="NAME">exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">CompilationUnit</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">CompilationUnit</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> 
+<span class='line'>220</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span></pre></body></html>

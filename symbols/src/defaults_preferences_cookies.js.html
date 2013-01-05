@@ -1,0 +1,29 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// Global</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.logEvents"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.clearWhenDeny"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.filterByPath"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.showRejectedCookies"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.defaultExpireTime"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">3600</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.lastSortedColumn"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.hiddenColumns"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"colRawValue colStatus colSize"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.removeConfirmation"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.removeSessionConfirmation"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">// Activation</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.enableSites"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.enableLocalFiles"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.cookies.enableSystemPages"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> 
+<span class='line'> 17</span> </span><span class="COMM">// Firebug tracing support</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.DBG_COOKIES"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="COMM">// Shortcuts</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="NAME">pref</span><span class="PUNC">(</span><span class="STRN">"extensions.firebug.key.shortcut.removeAllCookies"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"control shift o"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> </span></pre></body></html>

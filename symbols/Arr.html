@@ -1,0 +1,1277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="generator" content="JsDoc Toolkit" />
+        
+        <title>Firebug API Reference - Arr</title>
+
+        <style type="text/css">
+        /* See license.txt for terms of usage */
+
+body {
+    font-size: 12px;
+    font-family: Lucida Grande, Arial, sans-serif;
+}
+
+/************************************************************************************************/
+
+#container {
+    margin-top: 93px;
+    border-top: solid rgb(230, 230, 230) 25px;
+    width: 880px;
+}
+
+#header img {
+    z-index: 200;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+#index {
+    float: left;
+    width: 250px; /*xxxHonza 160px*/
+    left: 8px;
+    background-color: rgb(230, 230, 230); /* #F3F3F3 */
+    padding: 8px;
+    padding-top: 35px;
+}
+
+#content
+{
+    margin-top: -20px;
+    margin-left: 280px; /*xxxHonza 190px*/
+    width: 600px;
+}
+
+/************************************************************************************************/
+
+h1
+{
+    color: #444444;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0;
+    margin: 1em 0 0 .3em;
+}
+
+hr
+{
+    border: none 0;
+    border-top: 1px solid #7F8FB1;
+    height: 1px;
+}
+
+pre.code
+{
+    display: block;
+    padding: 8px;
+    border: 1px dashed #ccc;
+}
+
+a {
+    color: SlateBlue;
+    font-weight: bold;
+}
+
+/************************************************************************************************/
+
+/* cllClasses.tmpl */
+.allClassesMenu {
+}
+
+/************************************************************************************************/
+
+.reportIssue {
+    margin-left: 310px;
+}
+
+/************************************************************************************************/
+
+.classList
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 8px;
+    font-family: arial, sans-serif;
+    font-size: 1em;
+    overflow: auto;
+}
+
+.classList li
+{
+    padding: 0;
+    margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+    line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+    background-color: #7F8FB1;
+    color: #fff;
+    font-size:130%;
+    text-align: left;
+    padding: 2px 6px 2px 6px;
+    border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+    vertical-align: top;
+    padding: 4px;
+    border-bottom: 1px #7F8FB1 solid;
+    border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+    border-left: 1px #7F8FB1 solid;
+    width: 140px;
+    text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+    line-height: 15px;
+    color: #002EBE;
+    font-family: "Courier New",Courier,monospace;
+    font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+    text-align: left;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.description {
+    line-height: 17px !important;
+}
+
+.summaryTable td.nameDescription, .description
+{
+    line-height: 15px;
+    padding: 4px;
+    padding-left: 4px;
+    font-size: 12px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+    list-style: square;
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.detailList {
+    margin-left: 20px; 
+    line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+    font-weight: bold;
+    padding-bottom: 6px;
+    margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+    color: #777;
+    font-style: italic;
+}
+
+.fineprint
+{
+    text-align: right;
+    font-size: 10px;
+}
+
+code {
+    font-style: italic;
+    font-size: 10px;
+}
+
+        </style>
+	</head>
+
+<body>
+    <div id="container">
+<!-- ============================== header ================================= -->	
+        <!-- begin static/header.html -->
+        <div id="header">
+    <img src="http://getfirebug.com/developer/api/header.png"/>
+</div>
+        <!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+        <div id="index">
+            <!-- begin publish.classesIndex -->
+            <!-- Top Menu -->
+<div align="center">
+<a href="../index.html">Class Index</a> |
+<a href="../files.html">File Index</a>
+</div>
+<hr />
+
+<!-- List of Modules (objects derived from Firebug.Module) -->
+
+<h2>Modules</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Firebug.ActivableModule.html">Firebug.ActivableModule</a></li>
+    
+    <li><a href="../symbols/Firebug.Activation.html">Firebug.Activation</a></li>
+    
+    <li><a href="../symbols/Firebug.CommandLine.Popup.html">Firebug.CommandLine.Popup</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.html">Firebug.CookieModule</a></li>
+    
+    <li><a href="../symbols/Firebug.Inspector.html">Firebug.Inspector</a></li>
+    
+    <li><a href="../symbols/Firebug.Module.html">Firebug.Module</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.html">Firebug.NetMonitor</a></li>
+    
+    <li><a href="../symbols/Firebug.PanelActivation.html">Firebug.PanelActivation</a></li>
+    
+    <li><a href="../symbols/Firebug.Search.html">Firebug.Search</a></li>
+    
+    <li><a href="../symbols/Firebug.Spy.html">Firebug.Spy</a></li>
+    
+    <li><a href="../symbols/Firebug.StartButton.html">Firebug.StartButton</a></li>
+    
+    <li><a href="../symbols/Firebug.SVGViewerModel.html">Firebug.SVGViewerModel</a></li>
+    
+    <li><a href="../symbols/Firebug.TraceModule.html">Firebug.TraceModule</a></li>
+    
+    <li><a href="../symbols/Firebug.XMLViewerModel.html">Firebug.XMLViewerModel</a></li>
+    
+</ul><hr />
+
+
+<!-- List of Panels (objects derived from Firebug.Panel) -->
+
+<h2>Panels</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Firebug.ActivablePanel.html">Firebug.ActivablePanel</a></li>
+    
+    <li><a href="../symbols/Firebug.Panel.html">Firebug.Panel</a></li>
+    
+    <li><a href="../symbols/Firebug.SourceBoxPanel.html">Firebug.SourceBoxPanel</a></li>
+    
+</ul><hr />
+
+
+<!-- List of Domplate templates (usually objects derived from Firebug.Rep) -->
+
+<h2>Templates</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Breakpoints.Breakpoint.html">Breakpoints.Breakpoint</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieChanged.html">CookieReps.CookieChanged</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieCleared.html">CookieReps.CookieCleared</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRejected.html">CookieReps.CookieRejected</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRow.html">CookieReps.CookieRow</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieTable.html">CookieReps.CookieTable</a></li>
+    
+    <li><a href="../symbols/CookieReps.Rep.html">CookieReps.Rep</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.NetInfoBody.html">Firebug.CookieModule.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoBody.html">Firebug.NetMonitor.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoHeaders.html">Firebug.NetMonitor.NetInfoHeaders</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoPostData.html">Firebug.NetMonitor.NetInfoPostData</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestEntry.html">Firebug.NetMonitor.NetRequestEntry</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestTable.html">Firebug.NetMonitor.NetRequestTable</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.SizeInfoTip.html">Firebug.NetMonitor.SizeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.TimeInfoTip.html">Firebug.NetMonitor.TimeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.ScriptPanel.WarningRep.html">Firebug.ScriptPanel.WarningRep</a></li>
+    
+</ul><hr />
+
+
+<!-- List of all Services (XPCOM) objects -->
+
+<h2>Services (XPCOM)</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/fbObserverService.html">fbObserverService</a></li>
+    
+    <li><a href="../symbols/httpRequestObserver.html">httpRequestObserver</a></li>
+    
+</ul><hr />
+
+
+<!-- List of all Services (XPCOM) objects -->
+
+<h2>Libraries</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Arr.html">Arr</a></li>
+    
+    <li><a href="../symbols/Css.html">Css</a></li>
+    
+    <li><a href="../symbols/Deprecated.html">Deprecated</a></li>
+    
+    <li><a href="../symbols/Dom.html">Dom</a></li>
+    
+    <li><a href="../symbols/Func.html">Func</a></li>
+    
+    <li><a href="../symbols/Obj.html">Obj</a></li>
+    
+    <li><a href="../symbols/Options.html">Options</a></li>
+    
+</ul><hr />
+
+
+<!-- List of all dialog objects -->
+
+
+<!-- List of all classes -->
+<h2>All Classes</h2>
+<ul class="classList">
+    
+    <li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+    
+    <li><a href="../symbols/Arr.html">Arr</a></li>
+    
+    <li><a href="../symbols/Breakpoints.Breakpoint.html">Breakpoints.Breakpoint</a></li>
+    
+    <li><a href="../symbols/Browser.EventListener.html">Browser.EventListener</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieChanged.html">CookieReps.CookieChanged</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieCleared.html">CookieReps.CookieCleared</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRejected.html">CookieReps.CookieRejected</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRow.html">CookieReps.CookieRow</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieTable.html">CookieReps.CookieTable</a></li>
+    
+    <li><a href="../symbols/CookieReps.Rep.html">CookieReps.Rep</a></li>
+    
+    <li><a href="../symbols/Css.html">Css</a></li>
+    
+    <li><a href="../symbols/Deprecated.html">Deprecated</a></li>
+    
+    <li><a href="../symbols/Dom.html">Dom</a></li>
+    
+    <li><a href="../symbols/factoryBrowser-Browser.html">factoryBrowser-Browser</a></li>
+    
+    <li><a href="../symbols/fbObserverService.html">fbObserverService</a></li>
+    
+    <li><a href="../symbols/Firebug.ActivableModule.html">Firebug.ActivableModule</a></li>
+    
+    <li><a href="../symbols/Firebug.ActivablePanel.html">Firebug.ActivablePanel</a></li>
+    
+    <li><a href="../symbols/Firebug.Activation.html">Firebug.Activation</a></li>
+    
+    <li><a href="../symbols/Firebug.CommandLine.Popup.html">Firebug.CommandLine.Popup</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.html">Firebug.CookieModule</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.DebuggerListener.html">Firebug.CookieModule.DebuggerListener</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.NetInfoBody.html">Firebug.CookieModule.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.HTMLModule.DebuggerListener.html">Firebug.HTMLModule.DebuggerListener</a></li>
+    
+    <li><a href="../symbols/Firebug.Inspector.html">Firebug.Inspector</a></li>
+    
+    <li><a href="../symbols/Firebug.Module.html">Firebug.Module</a></li>
+    
+    <li><a href="../symbols/Firebug.NavigationHistory.html">Firebug.NavigationHistory</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.html">Firebug.NetMonitor</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoBody.html">Firebug.NetMonitor.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoHeaders.html">Firebug.NetMonitor.NetInfoHeaders</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoPostData.html">Firebug.NetMonitor.NetInfoPostData</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestEntry.html">Firebug.NetMonitor.NetRequestEntry</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestTable.html">Firebug.NetMonitor.NetRequestTable</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.SizeInfoTip.html">Firebug.NetMonitor.SizeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.TimeInfoTip.html">Firebug.NetMonitor.TimeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.Panel.html">Firebug.Panel</a></li>
+    
+    <li><a href="../symbols/Firebug.PanelActivation.html">Firebug.PanelActivation</a></li>
+    
+    <li><a href="../symbols/Firebug.ScriptPanel.WarningRep.html">Firebug.ScriptPanel.WarningRep</a></li>
+    
+    <li><a href="../symbols/Firebug.Search.html">Firebug.Search</a></li>
+    
+    <li><a href="../symbols/Firebug.SourceBoxDecorator.html">Firebug.SourceBoxDecorator</a></li>
+    
+    <li><a href="../symbols/Firebug.SourceBoxPanel.html">Firebug.SourceBoxPanel</a></li>
+    
+    <li><a href="../symbols/Firebug.Spy.html">Firebug.Spy</a></li>
+    
+    <li><a href="../symbols/Firebug.Spy.XMLHttpRequestSpy.html">Firebug.Spy.XMLHttpRequestSpy</a></li>
+    
+    <li><a href="../symbols/Firebug.StartButton.html">Firebug.StartButton</a></li>
+    
+    <li><a href="../symbols/Firebug.SVGViewerModel.html">Firebug.SVGViewerModel</a></li>
+    
+    <li><a href="../symbols/Firebug.TraceModule.html">Firebug.TraceModule</a></li>
+    
+    <li><a href="../symbols/Firebug.XMLViewerModel.html">Firebug.XMLViewerModel</a></li>
+    
+    <li><a href="../symbols/Func.html">Func</a></li>
+    
+    <li><a href="../symbols/httpRequestObserver.html">httpRequestObserver</a></li>
+    
+    <li><a href="../symbols/IntoStepper.html">IntoStepper</a></li>
+    
+    <li><a href="../symbols/LineStepper.html">LineStepper</a></li>
+    
+    <li><a href="../symbols/Obj.html">Obj</a></li>
+    
+    <li><a href="../symbols/ObjectPersister.html">ObjectPersister</a></li>
+    
+    <li><a href="../symbols/Options.html">Options</a></li>
+    
+    <li><a href="../symbols/OutStepper.html">OutStepper</a></li>
+    
+    <li><a href="../symbols/Search.LiteralRegExp.html">Search.LiteralRegExp</a></li>
+    
+    <li><a href="../symbols/Search.TextSearch.html">Search.TextSearch</a></li>
+    
+    <li><a href="../symbols/window.Firebug.html">window.Firebug</a></li>
+    
+</ul>
+<hr />
+
+            <!-- end publish.classesIndex -->
+        </div>
+
+        <div id="content">
+            <a class="reportIssue" href="http://code.google.com/p/fbug/issues/entry?template=API Reference Report">Report Doc Issue</a>
+             |
+            <a href="http://getfirebug.com/wiki/index.php/Firebug_Source_Code_Comments">How To Comment Firebug Code</a>
+<!-- ============================== class title ============================ -->
+            <h1 class="classTitle">
+                
+                Class Arr
+            </h1>
+
+<!-- ============================== class summary ========================== -->			
+            
+            
+            <p class="description">
+                
+                Utility for Arrays
+                <br />
+                
+                    <br /><i>Defined in: </i> <a href="../symbols/src/content_firebug_lib_array.js.html">array.js</a>.
+                
+            </p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Arr.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/Arr.html#constructor">Arr</a></b>()
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Arr.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Arr.<b><a href="../symbols/Arr.html#.cloneArray">cloneArray</a></b>
+								</div>
+								<div class="description">Clone an array.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Arr.<b><a href="../symbols/Arr.html#.extendArray">extendArray</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Arr.<b><a href="../symbols/Arr.html#.isArray">isArray</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Arr.<b><a href="../symbols/Arr.html#.keys">keys</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Arr.<b><a href="../symbols/Arr.html#.merge">merge</a></b>
+								</div>
+								<div class="description">Merge together two arrays, sort the result, and eliminate any duplicates.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Arr.<b><a href="../symbols/Arr.html#.sliceArray">sliceArray</a></b>
+								</div>
+								<div class="description">Returns a shallow copy of a portion of an array.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Arr.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.arrayInsert">arrayInsert</a></b>(array, index, other)
+								</div>
+								<div class="description">insert elements at a specific index
+NOTE: that method modifies the array passed as the first parameter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.isArrayLike">isArrayLike</a></b>(obj)
+								</div>
+								<div class="description">Returns true if the given object is an Array or an Array-Like object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.remove">remove</a></b>(list, item)
+								</div>
+								<div class="description">Removes an item from an array or an array-like object</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.removeAll">removeAll</a></b>(list, item)
+								</div>
+								<div class="description">Same as Arr.remove but removes all the occurences of item</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.sortUnique">sortUnique</a></b>(arr, sortFunc)
+								</div>
+								<div class="description">Sorts an array and eliminate duplicates from it.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.unique">unique</a></b>(arr, sorted)
+								</div>
+								<div class="description">Filters out unique values of an array, saving only the first occurrence of
+every value.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Arr.<b><a href="../symbols/Arr.html#.values">values</a></b>(map)
+								</div>
+								<div class="description">Returns the values of an object</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>Arr</b>()
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".cloneArray"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>cloneArray</b>
+					
+					</div>
+					<div class="description">
+						Clone an array. If a function is given as second parameter, the function is called for each
+elements of the passed array and the results are put in the new one.
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Use either Array.slice(array) or Array.map(array, fn) instead. 
+see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".extendArray"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>extendArray</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Use Array.concat(array, array2) or array.concat(array2) instead
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isArray"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>isArray</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								use Array.isArray instead
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".keys"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>keys</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Use Object.keys instead
+see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/keys
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".merge"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>merge</b>
+					
+					</div>
+					<div class="description">
+						Merge together two arrays, sort the result, and eliminate any duplicates.
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								use Arr.sortUnique and/or Array.prototype.concat instead
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".sliceArray"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>sliceArray</b>
+					
+					</div>
+					<div class="description">
+						Returns a shallow copy of a portion of an array.
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								use Array.prototype.slice instead
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".arrayInsert"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>arrayInsert</b>(array, index, other)
+					
+					</div>
+					<div class="description">
+						insert elements at a specific index
+NOTE: that method modifies the array passed as the first parameter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array or Array-Like object}</span> <b>array</b>
+									
+								</dt>
+								<dd>The array in which we insert elements</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Integer}</span> <b>index</b>
+									
+								</dt>
+								<dd>The index</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array or Array-Like object}</span> <b>other</b>
+									
+								</dt>
+								<dd>The elements to insert</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the updated array</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isArrayLike"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>isArrayLike</b>(obj)
+					
+					</div>
+					<div class="description">
+						Returns true if the given object is an Array or an Array-Like object
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>obj</b>
+									
+								</dt>
+								<dd>The object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>true if it is an array-like object or false otherwise</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".remove"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>remove</b>(list, item)
+					
+					</div>
+					<div class="description">
+						Removes an item from an array or an array-like object
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array or Array-Like object}</span> <b>list</b>
+									
+								</dt>
+								<dd>The array</dd>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>item</b>
+									
+								</dt>
+								<dd>The item to remove from the object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>true if an item as been removed, false otherwise</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".removeAll"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Arr.</span><b>removeAll</b>(list, item)
+					
+					</div>
+					<div class="description">
+						Same as Arr.remove but removes all the occurences of item
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array or Array-Like object}</span> <b>list</b>
+									
+								</dt>
+								<dd>The array</dd>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>item</b>
+									
+								</dt>
+								<dd>The item to remove from the object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>true if an item as been removed, false otherwise</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".sortUnique"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Array}</span>
+					<span class="light">Arr.</span><b>sortUnique</b>(arr, sortFunc)
+					
+					</div>
+					<div class="description">
+						Sorts an array and eliminate duplicates from it.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array or Array-Like object}</span> <b>arr</b>
+									
+								</dt>
+								<dd>The array</dd>
+							
+								<dt>
+									<span class="light fixedFont">{function}</span> <b>sortFunc</b>
+									
+								</dt>
+								<dd>The function used to sort the array (optional)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> the sorted array</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".unique"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Array}</span>
+					<span class="light">Arr.</span><b>unique</b>(arr, sorted)
+					
+					</div>
+					<div class="description">
+						Filters out unique values of an array, saving only the first occurrence of
+every value. In case the array is sorted, a faster path is taken.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Array or Array-Like object}</span> <b>arr</b>
+									
+								</dt>
+								<dd>The array</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>sorted</b>
+									
+								</dt>
+								<dd>If set to true, use the faster path</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> the array deprived of duplication</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".values"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Array}</span>
+					<span class="light">Arr.</span><b>values</b>(map)
+					
+					</div>
+					<div class="description">
+						Returns the values of an object
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>map</b>
+									
+								</dt>
+								<dd>The object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> the values</dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Sat Jan 05 2013 23:10:37 GMT+0100 (CET)
+		</div>
+    </div>
+</body>
+</html>

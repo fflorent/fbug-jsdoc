@@ -1,0 +1,677 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <link rel=stylesheet href="../../code.css" type="text/css"></head><body><pre><span class="COMM">/* See license.txt for terms of usage */</span>
+
+<span class="NAME">FBL</span><span class="PUNC">.</span><span class="NAME">ns</span><span class="PUNC">(</span> <span class="COMM">/**@scope _eventDelegator_ */</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span> <span class='scope' rel='_eventDelegator_'><span class="PUNC">{</span>
+
+<span class="COMM">// ************************************************************************************************</span>
+<span class="COMM">// Globals</span>
+
+<span class="KEYW">var</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span> <span class="PUNC">=</span> <span class="KEYW">new</span> <span class="NAME">Cache</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+<span class="COMM">/**
+ * @namespace 
+ * @exports _eventDelegator_-Event as Event
+ */</span>
+<span class="KEYW">var</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span> <span class="PUNC">=</span> <span class='scope' rel='Event'><span class="PUNC">{</span><span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+<span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L16">add</a></span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">element</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">type</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">callback</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">owner</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">validator</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">data</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">bubble</span><span class="PUNC">)</span>
+<span class='scope' rel='Event.add'><span class="PUNC">{</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">id</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span><span class="PUNC">.</span><span class="NAME">set</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">id</span><span class="PUNC">)</span> <span class="KEYW">return</span><span class="PUNC">;</span>
+    
+    <span class="COMM">// the "owner" is which object means "this" inside the callback function</span>
+    <span class="NAME NAMEDEF">owner</span> <span class="PUNC">=</span> <span class="NAME">owner</span> <span class="PUNC">||</span> <span class="NAME">element</span><span class="PUNC">;</span>
+    
+    <span class="COMM">// read type and namespaces</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">info</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L210">readEventNamespace</a></span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">namespaces</span> <span class="PUNC">=</span> <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME">namespaces</span><span class="PUNC">;</span>
+    <span class="NAME NAMEDEF">type</span> <span class="PUNC">=</span> <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME">type</span><span class="PUNC">;</span>
+
+    <span class="COMM">// read eventMap, which will hold data for all types of event</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventMap</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span> <span class="STRN">"eventMap"</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+    <span class="COMM">// if there's no eventMap, create one</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">eventMap</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="NAME NAMEDEF">eventMap</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span> <span class="STRN">"eventMap"</span><span class="PUNC">,</span> <span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+
+    <span class="COMM">// read eventData</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventData</span> <span class="PUNC">=</span> <span class="NAME">eventMap</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">;</span>
+
+    <span class="COMM">// if there's no eventData, create one</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">eventData</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="NAME NAMEDEF">eventData</span> <span class="PUNC">=</span> <span class="NAME">eventMap</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span> <span class="PUNC">=</span> <span class="PUNC">{</span>
+            <span class="NAME NAMEDEF">listeners</span><span class="PUNC">:</span> <span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span>
+            <span class="NAME NAMEDEF">handler</span><span class="PUNC">:</span> <span class="KEYW">null</span>
+        <span class="PUNC">}</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+    
+    <span class="COMM">// callback queue</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventListeners</span> <span class="PUNC">=</span> <span class="NAME">eventData</span><span class="PUNC">.</span><span class="NAME">listeners</span><span class="PUNC">;</span>
+
+    <span class="COMM">// event handler</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventHandler</span> <span class="PUNC">=</span> <span class="NAME">eventData</span><span class="PUNC">.</span><span class="NAME">handler</span><span class="PUNC">;</span>
+
+    <span class="COMM">// if there's no handler, create one</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">eventHandler</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="NAME NAMEDEF">eventHandler</span> <span class="PUNC">=</span> <span class="COMM">/** @ignore */</span> <span class="NAME">eventData</span><span class="PUNC">.</span><span class="NAME NAMEDEF">handler</span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">event</span><span class="PUNC">)</span>
+        <span class='scope' rel='eventData.handler'><span class="PUNC">{</span>
+            <span class="COMM">//console.time("handling "+type);</span>
+
+            <span class="NAME NAMEDEF">event</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L259">fixEvent</a></span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+            <span class="KEYW">var</span> <span class="NAME NAMEDEF">target</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">target</span><span class="PUNC">;</span>
+
+            <span class="KEYW">do</span>
+            <span class="PUNC">{</span>
+                <span class="KEYW">for</span> <span class="PUNC">(</span><span class="KEYW">var</span> <span class="NAME NAMEDEF">i</span> <span class="PUNC">=</span> <span class="NUMB">0</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">length</span> <span class="PUNC">=</span> <span class="NAME">eventListeners</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span> <span class="NAME">i</span> <span class="PUNC">&lt;</span> <span class="NAME">length</span><span class="PUNC">;</span> <span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span>
+                <span class="PUNC">{</span>
+                    <span class="KEYW">var</span> <span class="NAME NAMEDEF">listener</span> <span class="PUNC">=</span> <span class="NAME">eventListeners</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span>
+                    
+                    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">validator</span> <span class="PUNC">&&</span> <span class="NAME">validator</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="NAME">owner</span><span class="PUNC">,</span> <span class="NAME">event</span><span class="PUNC">,</span> <span class="NAME">listener</span><span class="PUNC">)</span> <span class="PUNC">||</span> <span class="PUNC">!</span><span class="NAME">validator</span><span class="PUNC">)</span>
+                        <span class="NAME">listener</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="NAME">owner</span><span class="PUNC">,</span> <span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span>
+                <span class="PUNC">}</span>
+                
+                <span class="NAME NAMEDEF">target</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">target</span> <span class="PUNC">=</span> <span class="NAME">bubble</span> <span class="PUNC">&&</span> <span class="COMM">// if should bubble up</span>
+                        <span class="PUNC">!</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">isPropagationStopped</span><span class="PUNC">(</span><span class="PUNC">)</span> <span class="PUNC">&&</span> <span class="COMM">// and propagation is not stopped  </span>
+                        <span class="NAME">target</span><span class="PUNC">.</span><span class="NAME">parentNode</span><span class="PUNC">;</span> <span class="COMM">// then we must look for the parent node</span>
+                        <span class="COMM">// otherwise target variable will be set to null</span>
+            <span class="PUNC">}</span>
+            <span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+            <span class="COMM">//console.timeEnd("handling "+type);</span>
+        <span class="PUNC">}</span></span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+    
+    <span class="COMM">// add event to the queue</span>
+    <span class="NAME">eventListeners</span><span class="PUNC">.</span><span class="NAME">push</span><span class="PUNC">(</span><span class="PUNC">{</span>
+        <span class="COMM">//type: type, // redundant.... remove this?</span>
+        <span class="NAME NAMEDEF">callback</span><span class="PUNC">:</span> <span class="NAME">callback</span><span class="PUNC">,</span>
+        <span class="NAME NAMEDEF">capture</span><span class="PUNC">:</span> <span class="NAME">capture</span><span class="PUNC">,</span>
+        <span class="NAME NAMEDEF">namespaces</span><span class="PUNC">:</span> <span class="NAME">namespaces</span><span class="PUNC">,</span>
+        <span class="NAME NAMEDEF">data</span><span class="PUNC">:</span> <span class="NAME">data</span>
+    <span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">eventListeners</span><span class="PUNC">.</span><span class="NAME">length</span> <span class="PUNC">==</span> <span class="NUMB">1</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">.</span><span class="NAME">addEventListener</span><span class="PUNC">)</span>
+            <span class="NAME">element</span><span class="PUNC">.</span><span class="NAME">addEventListener</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span> <span class="NAME">eventHandler</span><span class="PUNC">,</span> <span class="NAME">capture</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="KEYW">else</span>
+            <span class="NAME">element</span><span class="PUNC">.</span><span class="NAME">attachEvent</span><span class="PUNC">(</span><span class="STRN">"on"</span><span class="PUNC">+</span><span class="NAME">type</span><span class="PUNC">,</span> <span class="NAME">eventHandler</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+<span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+<span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L107">remove</a></span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">element</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">type</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">callback</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">owner</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">validator</span><span class="PUNC">)</span>
+<span class='scope' rel='Event.remove'><span class="PUNC">{</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">id</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span><span class="PUNC">.</span><span class="NAME">key</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">id</span><span class="PUNC">)</span> <span class="KEYW">return</span><span class="PUNC">;</span>
+
+    <span class="COMM">// read namespaces</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">info</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L210">readEventNamespace</a></span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">namespaces</span> <span class="PUNC">=</span> <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME">namespaces</span><span class="PUNC">;</span>
+    <span class="NAME NAMEDEF">type</span> <span class="PUNC">=</span> <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME">type</span><span class="PUNC">;</span>
+
+    <span class="COMM">// event map data</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventMap</span> <span class="PUNC">=</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span> <span class="STRN">"eventMap"</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">eventMap</span><span class="PUNC">)</span> <span class="KEYW">return</span><span class="PUNC">;</span>
+    
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventData</span><span class="PUNC">;</span>
+    
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">types</span> <span class="PUNC">=</span> <span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span>
+    
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="NAME NAMEDEF">types</span> <span class="PUNC">=</span> <span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+    <span class="KEYW">else</span>
+    <span class="PUNC">{</span>
+        <span class="KEYW">for</span> <span class="PUNC">(</span><span class="KEYW">var</span> <span class="NAME">name</span> <span class="KEYW">in</span> <span class="NAME">eventMap</span><span class="PUNC">)</span>
+        <span class="PUNC">{</span>
+            <span class="NAME">types</span><span class="PUNC">.</span><span class="NAME">push</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="PUNC">}</span>
+    <span class="PUNC">}</span>
+    
+    <span class="KEYW">for</span> <span class="PUNC">(</span><span class="KEYW">var</span> <span class="NAME NAMEDEF">t</span> <span class="PUNC">=</span> <span class="NUMB">0</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">tlength</span> <span class="PUNC">=</span> <span class="NAME">types</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span> <span class="NAME">t</span> <span class="PUNC">&lt;</span> <span class="NAME">tlength</span><span class="PUNC">;</span> <span class="NAME">t</span><span class="PUNC">++</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="NAME NAMEDEF">type</span> <span class="PUNC">=</span> <span class="NAME">types</span><span class="PUNC">[</span><span class="NAME">t</span><span class="PUNC">]</span><span class="PUNC">;</span>
+        
+        <span class="COMM">// event data</span>
+        <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventData</span> <span class="PUNC">=</span> <span class="NAME">eventMap</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">;</span>
+
+        <span class="COMM">// callback queue</span>
+        <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventListeners</span> <span class="PUNC">=</span> <span class="NAME">eventData</span><span class="PUNC">.</span><span class="NAME">listeners</span><span class="PUNC">;</span>
+        <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">eventListeners</span><span class="PUNC">)</span> <span class="KEYW">return</span><span class="PUNC">;</span>
+
+        <span class="COMM">// event handler</span>
+        <span class="KEYW">var</span> <span class="NAME NAMEDEF">eventHandler</span> <span class="PUNC">=</span> <span class="NAME">eventData</span><span class="PUNC">.</span><span class="NAME">handler</span><span class="PUNC">;</span>
+
+
+        <span class="KEYW">for</span> <span class="PUNC">(</span><span class="KEYW">var</span> <span class="NAME NAMEDEF">i</span> <span class="PUNC">=</span> <span class="NUMB">0</span><span class="PUNC">;</span>
+            <span class="COMM">// we cannot store the length as a way to improve the performance because</span>
+            <span class="COMM">// we're removing elements from the array, so we need to actually read</span>
+            <span class="COMM">// the length in every loop iteration to make sure we have reached the end</span>
+            <span class="NAME">i</span> <span class="PUNC">&lt;</span> <span class="NAME">eventListeners</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span>
+            <span class="PUNC">)</span>
+        <span class="PUNC">{</span>
+            <span class="KEYW">var</span> <span class="NAME NAMEDEF">listener</span> <span class="PUNC">=</span> <span class="NAME">eventListeners</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span>
+
+            <span class="COMM">/*
+            cases
+                - click
+                - click.namespace
+                - click.namespace.plus
+                - .namespace
+
+            has type --&gt; look for 1 type
+            has no type --&gt; look for all types
+
+                has namespace --&gt; compare
+                has callback --&gt; compare
+                no namespace, no callback (case removeEvent(el, "click")) --&gt; remove all events with the given type
+            */</span>
+
+            <span class="KEYW">if</span> <span class="PUNC">(</span>
+              <span class="PUNC">(</span><span class="NAME">callback</span> <span class="PUNC">&&</span> <span class="NAME">listener</span><span class="PUNC">.</span><span class="NAME">callback</span> <span class="PUNC">==</span> <span class="NAME">callback</span> <span class="PUNC">||</span> <span class="PUNC">!</span><span class="NAME">callback</span><span class="PUNC">)</span> <span class="PUNC">&&</span>
+              <span class="PUNC">(</span><span class="NAME">namespaces</span> <span class="PUNC">&&</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L232">compareEventNamespace</a></span><span class="PUNC">(</span><span class="NAME">namespaces</span><span class="PUNC">,</span> <span class="NAME">listener</span><span class="PUNC">.</span><span class="NAME">namespaces</span><span class="PUNC">)</span> <span class="PUNC">||</span> <span class="PUNC">!</span><span class="NAME">namespaces</span><span class="PUNC">)</span> <span class="PUNC">&&</span>
+              <span class="PUNC">(</span><span class="NAME">validator</span> <span class="PUNC">&&</span> <span class="NAME">validator</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="NAME">owner</span><span class="PUNC">,</span> <span class="NAME">listener</span><span class="PUNC">)</span> <span class="PUNC">||</span> <span class="PUNC">!</span><span class="NAME">validator</span><span class="PUNC">)</span>
+            <span class="PUNC">)</span>
+            <span class="PUNC">{</span>
+                <span class="NAME">listener</span><span class="PUNC">.</span><span class="NAME NAMEDEF">callback</span> <span class="PUNC">=</span> <span class="KEYW">null</span><span class="PUNC">;</span>
+                <span class="NAME">eventListeners</span><span class="PUNC">.</span><span class="NAME">splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span> <span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span>
+                <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L8">EventCache</a></span><span class="PUNC">.</span><span class="NAME">free</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span>
+            <span class="PUNC">}</span>
+            <span class="KEYW">else</span>
+            <span class="PUNC">{</span>
+                <span class="COMM">// we must advance the cursor only if current listener wasn't removed</span>
+                <span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">;</span>
+            <span class="PUNC">}</span>
+        <span class="PUNC">}</span>
+
+        <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">eventListeners</span><span class="PUNC">.</span><span class="NAME">length</span> <span class="PUNC">==</span> <span class="NUMB">0</span><span class="PUNC">)</span>
+        <span class="PUNC">{</span>
+            <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">.</span><span class="NAME">removeEventListener</span><span class="PUNC">)</span>
+                <span class="NAME">element</span><span class="PUNC">.</span><span class="NAME">removeEventListener</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span> <span class="NAME">eventHandler</span><span class="PUNC">,</span> <span class="NAME">capture</span><span class="PUNC">)</span><span class="PUNC">;</span>
+            <span class="KEYW">else</span>
+                <span class="NAME">element</span><span class="PUNC">.</span><span class="NAME">detachEvent</span><span class="PUNC">(</span><span class="STRN">"on"</span><span class="PUNC">+</span><span class="NAME">type</span><span class="PUNC">,</span> <span class="NAME">eventHandler</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="PUNC">}</span>
+
+    <span class="PUNC">}</span>
+<span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+
+
+<span class="COMM">// ************************************************************************************************</span>
+<span class="COMM">// Locals</span>
+
+<span class="KEYW">var</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L210">readEventNamespace</a></span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">type</span><span class="PUNC">)</span>
+<span class='scope' rel='_eventDelegator_-readEventNamespace'><span class="PUNC">{</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">info</span> <span class="PUNC">=</span> <span class='scope' rel='_eventDelegator_-readEventNamespace-info'><span class="PUNC">{</span><span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">.</span><span class="NAME">indexOf</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span> <span class="PUNC">!=</span> <span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="KEYW">var</span> <span class="NAME NAMEDEF">parts</span> <span class="PUNC">=</span> <span class="NAME">type</span><span class="PUNC">.</span><span class="NAME">split</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+        <span class="COMM">// type is the first name</span>
+        <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME NAMEDEF">type</span> <span class="PUNC">=</span> <span class="NAME">parts</span><span class="PUNC">.</span><span class="NAME">shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="COMM">// namespaces are all remaining parts (eg: click.MyPanel.MyPanelAction)</span>
+        <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME NAMEDEF">namespaces</span> <span class="PUNC">=</span> <span class="NAME">parts</span><span class="PUNC">.</span><span class="NAME">length</span> <span class="PUNC">&gt;</span> <span class="NUMB">0</span> <span class="PUNC">?</span> <span class="NAME NAMEDEF">parts</span> <span class="PUNC">:</span> <span class="KEYW">null</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+    <span class="KEYW">else</span>
+    <span class="PUNC">{</span>
+        <span class="NAME">info</span><span class="PUNC">.</span><span class="NAME NAMEDEF">type</span> <span class="PUNC">=</span> <span class="NAME">type</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+
+    <span class="KEYW">return</span> <span class="NAME">info</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+
+<span class="KEYW">var</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L232">compareEventNamespace</a></span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">namespaces</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">baseNamespaces</span><span class="PUNC">)</span>
+<span class='scope' rel='_eventDelegator_-compareEventNamespace'><span class="PUNC">{</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">namespaces</span> <span class="PUNC">||</span> <span class="PUNC">!</span><span class="NAME">baseNamespaces</span><span class="PUNC">)</span> <span class="KEYW">return</span> <span class="KEYW">false</span><span class="PUNC">;</span>
+    
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">base</span> <span class="PUNC">=</span> <span class="STRN">" "</span> <span class="PUNC">+</span> <span class="NAME">baseNamespaces</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span> <span class="PUNC">+</span> <span class="STRN">" "</span><span class="PUNC">;</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">count</span> <span class="PUNC">=</span> <span class="NUMB">0</span><span class="PUNC">;</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">ns</span><span class="PUNC">;</span>
+    
+    <span class="KEYW">for</span> <span class="PUNC">(</span><span class="KEYW">var</span> <span class="NAME NAMEDEF">i</span> <span class="PUNC">=</span> <span class="NUMB">0</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">length</span> <span class="PUNC">=</span> <span class="NAME">namespaces</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span> <span class="NAME">i</span> <span class="PUNC">&lt;</span> <span class="NAME">length</span><span class="PUNC">;</span> <span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span>
+    <span class="PUNC">{</span>
+        <span class="NAME NAMEDEF">ns</span> <span class="PUNC">=</span> <span class="NAME">namespaces</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span>
+        
+        <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="NAME">base</span><span class="PUNC">.</span><span class="NAME">indexOf</span><span class="PUNC">(</span><span class="STRN">" "</span> <span class="PUNC">+</span> <span class="NAME">ns</span> <span class="PUNC">+</span> <span class="STRN">" "</span><span class="PUNC">)</span> <span class="PUNC">!=</span> <span class="PUNC">-</span><span class="NUMB">1</span> <span class="PUNC">)</span>
+        <span class="PUNC">{</span>
+            <span class="NAME">count</span><span class="PUNC">++</span><span class="PUNC">;</span>
+        <span class="PUNC">}</span>
+    <span class="PUNC">}</span>
+    
+    <span class="KEYW">return</span> <span class="NAME">count</span> <span class="PUNC">==</span> <span class="NAME">length</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+<span class="COMM">// ************************************************************************************************</span>
+
+<span class="COMM">/**
+ * Support for cross-browser compatible event.
+ */</span>
+<span class="KEYW">var</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L258">expando</a></span> <span class="PUNC">=</span> <span class="STRN">"helloModule"</span><span class="PUNC">;</span>
+<span class="KEYW">var</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L259">fixEvent</a></span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">event</span><span class="PUNC">)</span>
+<span class='scope' rel='_eventDelegator_-fixEvent'><span class="PUNC">{</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="NAME">event</span><span class="PUNC">[</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L258">expando</a></span><span class="PUNC">]</span> <span class="PUNC">==</span> <span class="KEYW">true</span> <span class="PUNC">)</span>
+        <span class="KEYW">return</span> <span class="NAME">event</span><span class="PUNC">;</span>
+
+    <span class="COMM">// store a copy of the original event object</span>
+    <span class="COMM">// and "clone" to set read-only properties</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">originalEvent</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">;</span>
+    <span class="NAME NAMEDEF">event</span> <span class="PUNC">=</span> <span class='scope' rel='event'><span class="PUNC">{</span> <span class="NAME NAMEDEF">originalEvent</span><span class="PUNC">:</span> <span class="NAME">originalEvent</span> <span class="PUNC">}</span></span><span class="PUNC">;</span>
+    <span class="COMM">// TODO: xxxpedro any particular reason to not use "for var name in originalEvent"?</span>
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">props</span> <span class="PUNC">=</span> <span class="STRN">"altKey attrChange attrName bubbles button cancelable charCode clientX clientY ctrlKey currentTarget data detail eventPhase fromElement handler keyCode metaKey newValue originalTarget pageX pageY prevValue relatedNode relatedTarget screenX screenY shiftKey srcElement target timeStamp toElement type view wheelDelta which"</span><span class="NAME">.split</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="KEYW">for</span> <span class="PUNC">(</span> <span class="KEYW">var</span> <span class="NAME NAMEDEF">i</span><span class="PUNC">=</span><span class="NAME">props</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">;</span> <span class="NAME">i</span><span class="PUNC">;</span> <span class="NAME">i</span><span class="PUNC">--</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">[</span> <span class="NAME">props</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span> <span class="PUNC">]</span> <span class="PUNC">=</span> <span class="NAME">originalEvent</span><span class="PUNC">[</span> <span class="NAME">props</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span> <span class="PUNC">]</span><span class="PUNC">;</span>
+
+    <span class="KEYW">var</span> <span class="NAME NAMEDEF">isPropagationStopped</span> <span class="PUNC">=</span> <span class="KEYW">false</span><span class="PUNC">;</span>
+
+    <span class="COMM">// Mark it as fixed</span>
+    <span class="NAME">event</span><span class="PUNC">[</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L258">expando</a></span><span class="PUNC">]</span> <span class="PUNC">=</span> <span class="KEYW">true</span><span class="PUNC">;</span>
+
+    <span class="COMM">// add preventDefault and stopPropagation since</span>
+    <span class="COMM">// they will not work on the clone</span>
+    <span class="COMM">/** @ignore */</span>
+    <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">preventDefault</span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span> <span class='scope' rel='event.preventDefault'><span class="PUNC">{</span>
+        <span class="COMM">// if preventDefault exists run it on the original event</span>
+        <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">originalEvent</span><span class="PUNC">.</span><span class="NAME">preventDefault</span><span class="PUNC">)</span>
+            <span class="NAME">originalEvent</span><span class="PUNC">.</span><span class="NAME">preventDefault</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="COMM">// otherwise set the returnValue property of the original event to false (IE)</span>
+        <span class="NAME">originalEvent</span><span class="PUNC">.</span><span class="NAME NAMEDEF">returnValue</span> <span class="PUNC">=</span> <span class="KEYW">false</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">;</span>
+    <span class="COMM">/** @ignore */</span>
+    <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">stopPropagation</span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span> <span class='scope' rel='event.stopPropagation'><span class="PUNC">{</span>
+        <span class="COMM">// if stopPropagation exists run it on the original event</span>
+        <span class="KEYW">if</span> <span class="PUNC">(</span><span class="NAME">originalEvent</span><span class="PUNC">.</span><span class="NAME">stopPropagation</span><span class="PUNC">)</span>
+            <span class="NAME">originalEvent</span><span class="PUNC">.</span><span class="NAME">stopPropagation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="COMM">// otherwise set the cancelBubble property of the original event to true (IE)</span>
+        <span class="NAME">originalEvent</span><span class="PUNC">.</span><span class="NAME NAMEDEF">cancelBubble</span> <span class="PUNC">=</span> <span class="KEYW">true</span><span class="PUNC">;</span>
+        
+        <span class="NAME NAMEDEF">isPropagationStopped</span> <span class="PUNC">=</span> <span class="KEYW">true</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">;</span>
+    <span class="COMM">/** @ignore */</span>
+    <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">isPropagationStopped</span> <span class="PUNC">=</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span>
+    <span class='scope' rel='event.isPropagationStopped'><span class="PUNC">{</span>
+        <span class="KEYW">return</span> <span class="NAME">isPropagationStopped</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+    <span class="COMM">// Fix timeStamp</span>
+    <span class="COMM">//event.timeStamp = event.timeStamp || this.now();</span>
+    <span class="COMM">// TODO: xxxpedro what is this now() function? ask honza where this fixEvent function came from</span>
+    <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">timeStamp</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">timeStamp</span> <span class="PUNC">||</span> <span class="KEYW">new</span> <span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="NAME">.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+    <span class="COMM">// Fix target property, if necessary</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="PUNC">!</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">target</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">target</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">srcElement</span> <span class="PUNC">||</span> <span class="NAME">document</span><span class="PUNC">;</span> <span class="COMM">// Fixes #1925 where srcElement might not be defined either</span>
+
+    <span class="COMM">// check if target is a textnode (safari)</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">target</span><span class="PUNC">.</span><span class="NAME">nodeType</span> <span class="PUNC">==</span> <span class="NUMB">3</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">target</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">target</span><span class="PUNC">.</span><span class="NAME">parentNode</span><span class="PUNC">;</span>
+
+    <span class="COMM">// Add relatedTarget, if necessary</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="PUNC">!</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">relatedTarget</span> <span class="PUNC">&&</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">fromElement</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">relatedTarget</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">fromElement</span> <span class="PUNC">==</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">target</span> <span class="PUNC">?</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">toElement</span> <span class="PUNC">:</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">fromElement</span><span class="PUNC">;</span>
+
+    <span class="COMM">// Calculate pageX/Y if missing and clientX/Y available</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">pageX</span> <span class="PUNC">==</span> <span class="KEYW">null</span> <span class="PUNC">&&</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">clientX</span> <span class="PUNC">!=</span> <span class="KEYW">null</span> <span class="PUNC">)</span> <span class="PUNC">{</span>
+        <span class="KEYW">var</span> <span class="NAME NAMEDEF">doc</span> <span class="PUNC">=</span> <span class="NAME">document</span><span class="PUNC">.</span><span class="NAME">documentElement</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">body</span> <span class="PUNC">=</span> <span class="NAME">document</span><span class="PUNC">.</span><span class="NAME">body</span><span class="PUNC">;</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">pageX</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">clientX</span> <span class="PUNC">+</span> <span class="PUNC">(</span><span class="NAME">doc</span> <span class="PUNC">&&</span> <span class="NAME">doc</span><span class="PUNC">.</span><span class="NAME">scrollLeft</span> <span class="PUNC">||</span> <span class="NAME">body</span> <span class="PUNC">&&</span> <span class="NAME">body</span><span class="PUNC">.</span><span class="NAME">scrollLeft</span> <span class="PUNC">||</span> <span class="NUMB">0</span><span class="PUNC">)</span> <span class="PUNC">-</span> <span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">.</span><span class="NAME">clientLeft</span> <span class="PUNC">||</span> <span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">pageY</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">clientY</span> <span class="PUNC">+</span> <span class="PUNC">(</span><span class="NAME">doc</span> <span class="PUNC">&&</span> <span class="NAME">doc</span><span class="PUNC">.</span><span class="NAME">scrollTop</span> <span class="PUNC">||</span> <span class="NAME">body</span> <span class="PUNC">&&</span> <span class="NAME">body</span><span class="PUNC">.</span><span class="NAME">scrollTop</span> <span class="PUNC">||</span> <span class="NUMB">0</span><span class="PUNC">)</span> <span class="PUNC">-</span> <span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">.</span><span class="NAME">clientTop</span> <span class="PUNC">||</span> <span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span>
+
+    <span class="COMM">// Add which for key events</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="PUNC">!</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">which</span> <span class="PUNC">&&</span> <span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">charCode</span> <span class="PUNC">||</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">charCode</span> <span class="PUNC">===</span> <span class="NUMB">0</span><span class="PUNC">)</span> <span class="PUNC">?</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">charCode</span> <span class="PUNC">:</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">keyCode</span><span class="PUNC">)</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">which</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">charCode</span> <span class="PUNC">||</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">keyCode</span><span class="PUNC">;</span>
+
+    <span class="COMM">// Add metaKey to non-Mac browsers (use ctrl for PC's and Meta for Macs)</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="PUNC">!</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">metaKey</span> <span class="PUNC">&&</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">ctrlKey</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">metaKey</span> <span class="PUNC">=</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">ctrlKey</span><span class="PUNC">;</span>
+
+    <span class="COMM">// Add which for click: 1 == left; 2 == middle; 3 == right</span>
+    <span class="COMM">// Note: button is not normalized, so don't use it</span>
+    <span class="KEYW">if</span> <span class="PUNC">(</span> <span class="PUNC">!</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">which</span> <span class="PUNC">&&</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">button</span> <span class="PUNC">)</span>
+        <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME NAMEDEF">which</span> <span class="PUNC">=</span> <span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">button</span> <span class="PUNC">&</span> <span class="NUMB">1</span> <span class="PUNC">?</span> <span class="NUMB">1</span> <span class="PUNC">:</span> <span class="PUNC">(</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">button</span> <span class="PUNC">&</span> <span class="NUMB">2</span> <span class="PUNC">?</span> <span class="NUMB">3</span> <span class="PUNC">:</span> <span class="PUNC">(</span> <span class="NAME">event</span><span class="PUNC">.</span><span class="NAME">button</span> <span class="PUNC">&</span> <span class="NUMB">4</span> <span class="PUNC">?</span> <span class="NUMB">2</span> <span class="PUNC">:</span> <span class="NUMB">0</span> <span class="PUNC">)</span> <span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+    <span class="KEYW">return</span> <span class="NAME">event</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+<span class="COMM">// ************************************************************************************************</span>
+
+<span class="COMM">/** 
+ * @class A "Control" is a visual component that responds to user actions
+ * 
+ * @exports _eventDelegator_-Control as Control
+ */</span>
+<span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">Control</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">element</span><span class="PUNC">)</span>
+<span class='scope' rel='Control'><span class="PUNC">{</span>
+    <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">this</a></span><span class="PUNC">.</span><span class="NAME NAMEDEF">_controlElement</span> <span class="PUNC">=</span> <span class="NAME">element</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span>
+
+<span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">Control</a></span><span class="PUNC">.</span><span class="KEYW">prototype</span> <span class="PUNC">=</span>
+<span class='scope' rel='Control#'><span class="PUNC">{</span>
+    <span class="NAME NAMEDEF">addEvent</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">type</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">callback</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span><span class="PUNC">)</span><span class='scope' rel='Control#addEvent'><span class="PUNC">{</span>
+        <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L16">add</a></span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">this</a></span><span class="PUNC">.</span><span class="NAME">_controlElement</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L369">getControlType</a></span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">,</span> <span class="NAME">callback</span><span class="PUNC">,</span> <span class="NAME">capture</span><span class="PUNC">,</span> <span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+    <span class="NAME NAMEDEF">removeEvent</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">type</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">callback</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span><span class="PUNC">)</span><span class='scope' rel='Control#removeEvent'><span class="PUNC">{</span>
+        <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L107">remove</a></span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">this</a></span><span class="PUNC">.</span><span class="NAME">_controlElement</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L369">getControlType</a></span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">,</span> <span class="NAME">callback</span><span class="PUNC">,</span> <span class="NAME">capture</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+    <span class="NAME NAMEDEF">removeEvents</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class='scope' rel='Control#removeEvents'><span class="PUNC">{</span>
+        <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L107">remove</a></span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">this</a></span><span class="PUNC">.</span><span class="NAME">_controlElement</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L369">getControlType</a></span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span>
+<span class="PUNC">}</span></span><span class="PUNC">;</span>
+
+<span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L369">getControlType</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">type</span><span class="PUNC">)</span>
+<span class='scope' rel='_eventDelegator_-getControlType'><span class="PUNC">{</span>
+    <span class="KEYW">return</span> <span class="NAME">type</span> <span class="PUNC">+</span> <span class="STRN">".{Control}"</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span>
+
+<span class="COMM">// ************************************************************************************************</span>
+
+<span class="COMM">/** 
+ * @class A "Controller" is a special kind of "Control" that can delegate events to its 
+ * descendants.
+ * 
+ * @augments Control
+ * @exports _eventDelegator_-Controller as Controller
+ */</span>
+<span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">Controller</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">element</span><span class="PUNC">)</span>
+<span class='scope' rel='Controller'><span class="PUNC">{</span>
+    <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">this</a></span><span class="PUNC">.</span><span class="NAME NAMEDEF">_controlElement</span> <span class="PUNC">=</span> <span class="NAME">element</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span>
+
+<span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">Controller</a></span><span class="PUNC">.</span><span class="KEYW">prototype</span> <span class="PUNC">=</span> <span class="NAME">FBL</span><span class="PUNC">.</span><span class="NAME">extend</span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L351">Control</a></span><span class="PUNC">.</span><span class="KEYW">prototype</span><span class="PUNC">,</span> <span class="COMM">/** @lends Controller.prototype */</span>
+<span class='scope' rel='Controller#'><span class="PUNC">{</span>
+
+    <span class="COMM">/**
+     * Adds a "Controller" listener.
+     * 
+     * *Example*
+     * ~~
+     * var controller = new Controller(root); // create an instance
+     *      
+     * controller.onclick = function(){}; // define the handler
+     *      
+     * controller.addController("div &gt; .someClass", "click.namespace", controller.onclick);
+     * ~~
+     * 
+     * @param {String} selector   A CSS selector representing the target Elements.
+     * @param {String} type       A string representing the event type/namespace to listen for.
+     * @param {Function} callback The controller handler function.
+     * @param {Boolean} capture   If "true", all events of the specified type/namespace 
+     *                            will be captured. 
+     * @see Event.add()
+     */</span>
+    <span class="NAME NAMEDEF">addController</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">selector</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">type</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">callback</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span><span class="PUNC">)</span>
+    <span class='scope' rel='Controller#addController'><span class="PUNC">{</span>
+        <span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L412">addControllerValidator</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">e</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">listener</span><span class="PUNC">)</span>
+        <span class='scope' rel='Controller#addController-addControllerValidator'><span class="PUNC">{</span>
+            <span class="KEYW">return</span> <span class="NAME">Firebug</span><span class="PUNC">.</span><span class="NAME">Selector</span><span class="PUNC">.</span><span class="NAME">matches</span><span class="PUNC">(</span><span class="NAME">listener</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">.</span><span class="NAME">selector</span><span class="PUNC">,</span> <span class="PUNC">[</span><span class="NAME">e</span><span class="PUNC">.</span><span class="NAME">target</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="NAME">.length</span> <span class="PUNC">&gt;</span> <span class="NUMB">0</span><span class="PUNC">;</span>
+        <span class="PUNC">}</span></span>
+        
+        <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L16">add</a></span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">this</a></span><span class="PUNC">.</span><span class="NAME">_controlElement</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L473">getControllerType</a></span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">,</span> <span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">,</span> <span class="NAME">callback</span><span class="PUNC">,</span> <span class="KEYW">null</span><span class="PUNC">,</span> 
+                <span class="KEYW">this</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L412">addControllerValidator</a></span><span class="PUNC">,</span> <span class="PUNC">{</span><span class="NAME NAMEDEF">selector</span><span class="PUNC">:</span> <span class="NAME">selector</span><span class="PUNC">}</span><span class="PUNC">,</span> <span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+
+    <span class="COMM">/**
+     * Removes one or more "Controller" listeners.
+     *      
+     * *Example*
+     * ~~
+     * // removes a particular controller
+     * controller.removeController("div &gt; .someClass", "click.namespace", controller.onclick);
+     * 
+     * // removes all controllers that match the selector, 
+     * // have the "click" type and the "namespace" namespace
+     * controller.removeController("div &gt; .someClass", "click.namespace");
+     *
+     * // removes all controllers that match the selector and have the "click" type
+     * controller.removeController("div &gt; .someClass", "click");
+     *
+     * // removes all controllers that match the selector and have the "namespace" namespace
+     * controller.removeController("div &gt; .someClass", ".namespace");
+     *
+     * // removes all controllers that match the selector
+     * controller.removeController("div &gt; .someClass");
+     *
+     * // removes all controllers that have the same type/namespace, you got the idea...
+     * controller.removeController(null, "click.namespace");
+     * ~~
+     * 
+     * @param {String} selector   A CSS selector representing the target Elements.
+     * @param {String} type       A string representing the event type/namespace to listen for.
+     * @param {Function} callback The controller handler function.
+     * @param {Boolean} capture   If "true", all events of the specified type/namespace 
+     *                            will be captured. 
+     * @see Event.remove()
+     */</span>
+    <span class="NAME NAMEDEF">removeController</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">selector</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">type</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">callback</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span><span class="PUNC">)</span>
+    <span class='scope' rel='Controller#removeController'><span class="PUNC">{</span>
+        <span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L455">removeControllerValidator</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">listener</span><span class="PUNC">)</span>
+        <span class='scope' rel='Controller#removeController-removeControllerValidator'><span class="PUNC">{</span>
+            <span class="KEYW">return</span> <span class="NAME">listener</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">.</span><span class="NAME">selector</span> <span class="PUNC">==</span> <span class="NAME">selector</span><span class="COMM">/* && listener.callback == callback*/</span><span class="PUNC">;</span>
+        <span class="PUNC">}</span></span>
+        
+        <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L107">remove</a></span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">this</a></span><span class="PUNC">.</span><span class="NAME">_controlElement</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L473">getControllerType</a></span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">,</span> <span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">,</span> <span class="NAME">callback</span><span class="PUNC">,</span> <span class="KEYW">null</span><span class="PUNC">,</span>
+                <span class="KEYW">this</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L455">removeControllerValidator</a></span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+
+    <span class="COMM">/**
+     * Removes all Controller listeners.
+     */</span>
+    <span class="NAME NAMEDEF">removeControllers</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span>
+    <span class='scope' rel='Controller#removeControllers'><span class="PUNC">{</span>
+        <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L14">Event</a></span><span class="PUNC">.</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L107">remove</a></span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">this</a></span><span class="PUNC">.</span><span class="NAME">_controlElement</span><span class="PUNC">,</span> <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L473">getControllerType</a></span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">,</span> <span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span>
+    <span class="PUNC">}</span></span>
+<span class="PUNC">}</span></span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+<span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L473">getControllerType</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">selector</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">type</span><span class="PUNC">)</span>
+<span class='scope' rel='_eventDelegator_-getControllerType'><span class="PUNC">{</span>
+    <span class="KEYW">return</span> <span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">||</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">".Controller"</span><span class="PUNC">+</span><span class="PUNC">(</span><span class="NAME">selector</span> <span class="PUNC">?</span> <span class="STRN">".Selector_"</span><span class="PUNC">+</span><span class="NAME">selector</span><span class="PUNC">.</span><span class="NAME">replace</span><span class="PUNC">(</span><span class="REGX">/\s|\./</span><span class="NAME">g</span><span class="PUNC">,</span> <span class="STRN">"_"</span><span class="PUNC">)</span> <span class="PUNC">:</span> <span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span>
+
+<span class="COMM">// ************************************************************************************************</span>
+
+<span class="COMM">/** 
+ * @class
+ * @augments Controller
+ * @exports _eventDelegator_-WindowController as WindowController
+ */</span>
+<span class="KEYW">function</span> <span class="NAME NAMEDEF"><a href="../../symbols/src/lite_eventDelegator.js.html#L485">WindowController</a></span><span class="PUNC">(</span><span class="NAME NAMEDEF">win</span><span class="PUNC">)</span>
+<span class='scope' rel='WindowController'><span class="PUNC">{</span>
+    <span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L485">this</a></span><span class="PUNC">.</span><span class="NAME NAMEDEF">_controlElement</span> <span class="PUNC">=</span> <span class="NAME">win</span><span class="PUNC">;</span>
+<span class="PUNC">}</span></span>
+
+<span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L485">WindowController</a></span><span class="PUNC">.</span><span class="KEYW">prototype</span> <span class="PUNC">=</span> <span class="NAME">FBL</span><span class="PUNC">.</span><span class="NAME">extend</span><span class="PUNC">(</span><span class="NAME"><a href="../../symbols/src/lite_eventDelegator.js.html#L383">Controller</a></span><span class="PUNC">.</span><span class="KEYW">prototype</span><span class="PUNC">,</span> <span class="COMM">/**@lends WindowController.prototype */</span>
+<span class='scope' rel='WindowController#'><span class="PUNC">{</span>
+    <span class="NAME NAMEDEF">addKeyController</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">key</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">filter</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">listener</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span> <span class="COMM">/*, priority?*/</span><span class="PUNC">)</span>
+    <span class='scope' rel='WindowController#addKeyController'><span class="PUNC">{</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+    
+    <span class="NAME NAMEDEF">removeKeyController</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">key</span><span class="PUNC">)</span>
+    <span class='scope' rel='WindowController#removeKeyController'><span class="PUNC">{</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+    
+    <span class="NAME NAMEDEF">removeKeyControllers</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span>
+    <span class='scope' rel='WindowController#removeKeyControllers'><span class="PUNC">{</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+
+    <span class="NAME NAMEDEF">addCharController</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">character</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">filter</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">listener</span><span class="PUNC">,</span> <span class="NAME NAMEDEF">capture</span> <span class="COMM">/*, priority? */</span> <span class="PUNC">)</span>
+    <span class='scope' rel='WindowController#addCharController'><span class="PUNC">{</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+    
+    <span class="NAME NAMEDEF">removeCharController</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME NAMEDEF">character</span><span class="PUNC">)</span>
+    <span class='scope' rel='WindowController#removeCharController'><span class="PUNC">{</span>
+    <span class="PUNC">}</span></span><span class="PUNC">,</span>
+    
+    <span class="NAME NAMEDEF">removeCharControllers</span><span class="PUNC">:</span> <span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span>
+    <span class='scope' rel='WindowController#removeCharControllers'><span class="PUNC">{</span>
+    <span class="PUNC">}</span></span>
+<span class="PUNC">}</span></span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+<span class="COMM">// ************************************************************************************************</span>
+
+<span class="COMM">/*
+// TODO: remove test stuff
+window.Control = Control;
+window.Controller = Controller;
+
+h1 = function(){ console.log("t1"); };
+h2 = function(){ console.log("t2"); };
+
+c = new Controller( document.body );
+
+c.addController("#main", "click", function(){ console.log("main"); });
+c.addController("h1", "click", function(e){ e.stopPropagation();console.log("h1"); });
+
+c.addController("h1", "mouseover", h1);
+c.addController("h1", "mouseover", h2);
+c.addController("h2", "mouseover", h2);
+
+window.c = c;
+*/</span>
+
+<span class="COMM">// ************************************************************************************************</span>
+
+<span class="PUNC">}</span></span><span class="PUNC">)</span><span class="PUNC">;</span>
+
+
+
+<span class="COMM">/*
+
+  TODO:
+    - API
+            Event.add versus Event.addEvent
+
+    - do not store objects in cache variables, use key instead
+
+    - priority?
+    - sort controller callbacks based on rule specificity?
+    - cancel propagation for controllers? 
+    
+    - use it for internal events?
+        - need to attach "key" attribute to individual objects 
+
+*/</span>
+
+
+<span class="COMM">/*
+
+Problems
+    - cross-browser compatibily (addEventListener versus attachEvent, event object differences)
+    - performance (we need to reduce the number of events attached to elements --&gt; event delegation)
+    
+Related-problems
+    - memory leak (we need to avoid circular references between DOM and JS worlds --&gt; cache)
+    - remote object identification (we can't use XPATH for JavaScript objects)
+
+Goals
+    - Define an API to handle event-related problems (event handling, event delegation, key listening)
+
+
+Tips for avoiding problem with events
+    - avoid adding events to elements. Use controls/controllers instead.
+
+    - Chrome controller
+        - all mouse events should be delegated
+        - all keyboard events should be delegated
+        - all resize events should be delegated
+        - all scroll events should be delegated
+
+~~~~~~~~~
+
+Questions
+
+Using expando property to cache elements
+  - we need this to optimize cache lookup time and avoid attaching JavaScript objects into DOM Elements (no circular references problem, less prone to memory leaks)
+  - Is this ok in Firebug code? Firebug Lite currently uses this
+
+Controller definition using CSS selectors or classes-only
+  - How to verify if a particular element matches a CSS selector in FF?
+
+
+~~~~~~~~~
+
+Control is a visual component that responds to user actions
+
+Controller is a special kind of Control that operates several sub-components (internal Controls)
+using a single Control component
+
+http://docwiki.embarcadero.com/VCL/en/Controls.TControl
+
+~~~~~~~~~
+
+API - draft
+
+----------------------------------------------------------------------------------------------------
+Lib/Event Module
+----------------------------------------------------------------------------------------------------
+    Lib.addEvent(element, namespace-type, callback, capture)
+    Lib.removeEvent(element, namespace-type, callback, capture)
+    Lib.removeEvents(namespace)
+
+    Lib.cancelEvent(event, preventDefault) ?
+
+    // KeyEvent object for non-FF browsers
+    Lib.KeyEvent = window.KeyEvent ||
+    {
+        DOM_VK_CANCEL: 3,
+        DOM_VK_HELP: 6,
+        DOM_VK_BACK_SPACE: 8,
+        DOM_VK_TAB: 9,
+        DOM_VK_CLEAR: 12,
+        DOM_VK_RETURN: 13,
+        DOM_VK_ENTER: 14,
+        ...
+    }
+
+----------------------------------------------------------------------------------------------------
+Lib/Event Module (currently in Lib)
+----------------------------------------------------------------------------------------------------
+    Lib.noKeyModifiers(event)
+
+    Lib.isControl(event)
+    Lib.isShift(event)
+    Lib.isAlt(event)
+    Lib.isControlShift(event)
+
+    Lib.isLeftClick(event)
+    Lib.isMiddleClick(event)
+    Lib.isRightClick(event)
+    Lib.isControlClick(event)
+    Lib.isShiftClick(event)
+    Lib.isAltClick(event)
+
+----------------------------------------------------------------------------------------------------
+Firebug.Control(context?, element)
+----------------------------------------------------------------------------------------------------
+    addEvent(namespace-type, callback, capture)
+    removeEvent(namespace-type, callback, capture)
+    removeEvents(namespace)
+
+
+----------------------------------------------------------------------------------------------------
+Firebug.Controller(context?, element)
+----------------------------------------------------------------------------------------------------
+    addController(selector, namespace-type, callback, capture)
+    removeController(selector, namespace-type, callback, capture)
+    removeControllers(namespace)
+
+    addKeyController(key, filter, listener, capture, priority?)
+    removeKeyController(key)
+    removeKeyControllers()
+
+    addCharController(character, filter, listener, capture, priority?)
+    removeCharController(character)
+    removeCharControllers()
+
+*/</span>
+
+
+
+</pre><div class="lineNumbers"><div><a name="L1" href="#L1">1</a></div><div><a name="L2" href="#L2">2</a></div><div><a name="L3" href="#L3">3</a></div><div><a name="L4" href="#L4">4</a></div><div><a name="L5" href="#L5">5</a></div><div><a name="L6" href="#L6">6</a></div><div><a name="L7" href="#L7">7</a></div><div><a name="L8" href="#L8">8</a></div><div><a name="L9" href="#L9">9</a></div><div><a name="L10" href="#L10">10</a></div><div><a name="L11" href="#L11">11</a></div><div><a name="L12" href="#L12">12</a></div><div><a name="L13" href="#L13">13</a></div><div><a name="L14" href="#L14">14</a></div><div><a name="L15" href="#L15">15</a></div><div><a name="L16" href="#L16">16</a></div><div><a name="L17" href="#L17">17</a></div><div><a name="L18" href="#L18">18</a></div><div><a name="L19" href="#L19">19</a></div><div><a name="L20" href="#L20">20</a></div><div><a name="L21" href="#L21">21</a></div><div><a name="L22" href="#L22">22</a></div><div><a name="L23" href="#L23">23</a></div><div><a name="L24" href="#L24">24</a></div><div><a name="L25" href="#L25">25</a></div><div><a name="L26" href="#L26">26</a></div><div><a name="L27" href="#L27">27</a></div><div><a name="L28" href="#L28">28</a></div><div><a name="L29" href="#L29">29</a></div><div><a name="L30" href="#L30">30</a></div><div><a name="L31" href="#L31">31</a></div><div><a name="L32" href="#L32">32</a></div><div><a name="L33" href="#L33">33</a></div><div><a name="L34" href="#L34">34</a></div><div><a name="L35" href="#L35">35</a></div><div><a name="L36" href="#L36">36</a></div><div><a name="L37" href="#L37">37</a></div><div><a name="L38" href="#L38">38</a></div><div><a name="L39" href="#L39">39</a></div><div><a name="L40" href="#L40">40</a></div><div><a name="L41" href="#L41">41</a></div><div><a name="L42" href="#L42">42</a></div><div><a name="L43" href="#L43">43</a></div><div><a name="L44" href="#L44">44</a></div><div><a name="L45" href="#L45">45</a></div><div><a name="L46" href="#L46">46</a></div><div><a name="L47" href="#L47">47</a></div><div><a name="L48" href="#L48">48</a></div><div><a name="L49" href="#L49">49</a></div><div><a name="L50" href="#L50">50</a></div><div><a name="L51" href="#L51">51</a></div><div><a name="L52" href="#L52">52</a></div><div><a name="L53" href="#L53">53</a></div><div><a name="L54" href="#L54">54</a></div><div><a name="L55" href="#L55">55</a></div><div><a name="L56" href="#L56">56</a></div><div><a name="L57" href="#L57">57</a></div><div><a name="L58" href="#L58">58</a></div><div><a name="L59" href="#L59">59</a></div><div><a name="L60" href="#L60">60</a></div><div><a name="L61" href="#L61">61</a></div><div><a name="L62" href="#L62">62</a></div><div><a name="L63" href="#L63">63</a></div><div><a name="L64" href="#L64">64</a></div><div><a name="L65" href="#L65">65</a></div><div><a name="L66" href="#L66">66</a></div><div><a name="L67" href="#L67">67</a></div><div><a name="L68" href="#L68">68</a></div><div><a name="L69" href="#L69">69</a></div><div><a name="L70" href="#L70">70</a></div><div><a name="L71" href="#L71">71</a></div><div><a name="L72" href="#L72">72</a></div><div><a name="L73" href="#L73">73</a></div><div><a name="L74" href="#L74">74</a></div><div><a name="L75" href="#L75">75</a></div><div><a name="L76" href="#L76">76</a></div><div><a name="L77" href="#L77">77</a></div><div><a name="L78" href="#L78">78</a></div><div><a name="L79" href="#L79">79</a></div><div><a name="L80" href="#L80">80</a></div><div><a name="L81" href="#L81">81</a></div><div><a name="L82" href="#L82">82</a></div><div><a name="L83" href="#L83">83</a></div><div><a name="L84" href="#L84">84</a></div><div><a name="L85" href="#L85">85</a></div><div><a name="L86" href="#L86">86</a></div><div><a name="L87" href="#L87">87</a></div><div><a name="L88" href="#L88">88</a></div><div><a name="L89" href="#L89">89</a></div><div><a name="L90" href="#L90">90</a></div><div><a name="L91" href="#L91">91</a></div><div><a name="L92" href="#L92">92</a></div><div><a name="L93" href="#L93">93</a></div><div><a name="L94" href="#L94">94</a></div><div><a name="L95" href="#L95">95</a></div><div><a name="L96" href="#L96">96</a></div><div><a name="L97" href="#L97">97</a></div><div><a name="L98" href="#L98">98</a></div><div><a name="L99" href="#L99">99</a></div><div><a name="L100" href="#L100">100</a></div><div><a name="L101" href="#L101">101</a></div><div><a name="L102" href="#L102">102</a></div><div><a name="L103" href="#L103">103</a></div><div><a name="L104" href="#L104">104</a></div><div><a name="L105" href="#L105">105</a></div><div><a name="L106" href="#L106">106</a></div><div><a name="L107" href="#L107">107</a></div><div><a name="L108" href="#L108">108</a></div><div><a name="L109" href="#L109">109</a></div><div><a name="L110" href="#L110">110</a></div><div><a name="L111" href="#L111">111</a></div><div><a name="L112" href="#L112">112</a></div><div><a name="L113" href="#L113">113</a></div><div><a name="L114" href="#L114">114</a></div><div><a name="L115" href="#L115">115</a></div><div><a name="L116" href="#L116">116</a></div><div><a name="L117" href="#L117">117</a></div><div><a name="L118" href="#L118">118</a></div><div><a name="L119" href="#L119">119</a></div><div><a name="L120" href="#L120">120</a></div><div><a name="L121" href="#L121">121</a></div><div><a name="L122" href="#L122">122</a></div><div><a name="L123" href="#L123">123</a></div><div><a name="L124" href="#L124">124</a></div><div><a name="L125" href="#L125">125</a></div><div><a name="L126" href="#L126">126</a></div><div><a name="L127" href="#L127">127</a></div><div><a name="L128" href="#L128">128</a></div><div><a name="L129" href="#L129">129</a></div><div><a name="L130" href="#L130">130</a></div><div><a name="L131" href="#L131">131</a></div><div><a name="L132" href="#L132">132</a></div><div><a name="L133" href="#L133">133</a></div><div><a name="L134" href="#L134">134</a></div><div><a name="L135" href="#L135">135</a></div><div><a name="L136" href="#L136">136</a></div><div><a name="L137" href="#L137">137</a></div><div><a name="L138" href="#L138">138</a></div><div><a name="L139" href="#L139">139</a></div><div><a name="L140" href="#L140">140</a></div><div><a name="L141" href="#L141">141</a></div><div><a name="L142" href="#L142">142</a></div><div><a name="L143" href="#L143">143</a></div><div><a name="L144" href="#L144">144</a></div><div><a name="L145" href="#L145">145</a></div><div><a name="L146" href="#L146">146</a></div><div><a name="L147" href="#L147">147</a></div><div><a name="L148" href="#L148">148</a></div><div><a name="L149" href="#L149">149</a></div><div><a name="L150" href="#L150">150</a></div><div><a name="L151" href="#L151">151</a></div><div><a name="L152" href="#L152">152</a></div><div><a name="L153" href="#L153">153</a></div><div><a name="L154" href="#L154">154</a></div><div><a name="L155" href="#L155">155</a></div><div><a name="L156" href="#L156">156</a></div><div><a name="L157" href="#L157">157</a></div><div><a name="L158" href="#L158">158</a></div><div><a name="L159" href="#L159">159</a></div><div><a name="L160" href="#L160">160</a></div><div><a name="L161" href="#L161">161</a></div><div><a name="L162" href="#L162">162</a></div><div><a name="L163" href="#L163">163</a></div><div><a name="L164" href="#L164">164</a></div><div><a name="L165" href="#L165">165</a></div><div><a name="L166" href="#L166">166</a></div><div><a name="L167" href="#L167">167</a></div><div><a name="L168" href="#L168">168</a></div><div><a name="L169" href="#L169">169</a></div><div><a name="L170" href="#L170">170</a></div><div><a name="L171" href="#L171">171</a></div><div><a name="L172" href="#L172">172</a></div><div><a name="L173" href="#L173">173</a></div><div><a name="L174" href="#L174">174</a></div><div><a name="L175" href="#L175">175</a></div><div><a name="L176" href="#L176">176</a></div><div><a name="L177" href="#L177">177</a></div><div><a name="L178" href="#L178">178</a></div><div><a name="L179" href="#L179">179</a></div><div><a name="L180" href="#L180">180</a></div><div><a name="L181" href="#L181">181</a></div><div><a name="L182" href="#L182">182</a></div><div><a name="L183" href="#L183">183</a></div><div><a name="L184" href="#L184">184</a></div><div><a name="L185" href="#L185">185</a></div><div><a name="L186" href="#L186">186</a></div><div><a name="L187" href="#L187">187</a></div><div><a name="L188" href="#L188">188</a></div><div><a name="L189" href="#L189">189</a></div><div><a name="L190" href="#L190">190</a></div><div><a name="L191" href="#L191">191</a></div><div><a name="L192" href="#L192">192</a></div><div><a name="L193" href="#L193">193</a></div><div><a name="L194" href="#L194">194</a></div><div><a name="L195" href="#L195">195</a></div><div><a name="L196" href="#L196">196</a></div><div><a name="L197" href="#L197">197</a></div><div><a name="L198" href="#L198">198</a></div><div><a name="L199" href="#L199">199</a></div><div><a name="L200" href="#L200">200</a></div><div><a name="L201" href="#L201">201</a></div><div><a name="L202" href="#L202">202</a></div><div><a name="L203" href="#L203">203</a></div><div><a name="L204" href="#L204">204</a></div><div><a name="L205" href="#L205">205</a></div><div><a name="L206" href="#L206">206</a></div><div><a name="L207" href="#L207">207</a></div><div><a name="L208" href="#L208">208</a></div><div><a name="L209" href="#L209">209</a></div><div><a name="L210" href="#L210">210</a></div><div><a name="L211" href="#L211">211</a></div><div><a name="L212" href="#L212">212</a></div><div><a name="L213" href="#L213">213</a></div><div><a name="L214" href="#L214">214</a></div><div><a name="L215" href="#L215">215</a></div><div><a name="L216" href="#L216">216</a></div><div><a name="L217" href="#L217">217</a></div><div><a name="L218" href="#L218">218</a></div><div><a name="L219" href="#L219">219</a></div><div><a name="L220" href="#L220">220</a></div><div><a name="L221" href="#L221">221</a></div><div><a name="L222" href="#L222">222</a></div><div><a name="L223" href="#L223">223</a></div><div><a name="L224" href="#L224">224</a></div><div><a name="L225" href="#L225">225</a></div><div><a name="L226" href="#L226">226</a></div><div><a name="L227" href="#L227">227</a></div><div><a name="L228" href="#L228">228</a></div><div><a name="L229" href="#L229">229</a></div><div><a name="L230" href="#L230">230</a></div><div><a name="L231" href="#L231">231</a></div><div><a name="L232" href="#L232">232</a></div><div><a name="L233" href="#L233">233</a></div><div><a name="L234" href="#L234">234</a></div><div><a name="L235" href="#L235">235</a></div><div><a name="L236" href="#L236">236</a></div><div><a name="L237" href="#L237">237</a></div><div><a name="L238" href="#L238">238</a></div><div><a name="L239" href="#L239">239</a></div><div><a name="L240" href="#L240">240</a></div><div><a name="L241" href="#L241">241</a></div><div><a name="L242" href="#L242">242</a></div><div><a name="L243" href="#L243">243</a></div><div><a name="L244" href="#L244">244</a></div><div><a name="L245" href="#L245">245</a></div><div><a name="L246" href="#L246">246</a></div><div><a name="L247" href="#L247">247</a></div><div><a name="L248" href="#L248">248</a></div><div><a name="L249" href="#L249">249</a></div><div><a name="L250" href="#L250">250</a></div><div><a name="L251" href="#L251">251</a></div><div><a name="L252" href="#L252">252</a></div><div><a name="L253" href="#L253">253</a></div><div><a name="L254" href="#L254">254</a></div><div><a name="L255" href="#L255">255</a></div><div><a name="L256" href="#L256">256</a></div><div><a name="L257" href="#L257">257</a></div><div><a name="L258" href="#L258">258</a></div><div><a name="L259" href="#L259">259</a></div><div><a name="L260" href="#L260">260</a></div><div><a name="L261" href="#L261">261</a></div><div><a name="L262" href="#L262">262</a></div><div><a name="L263" href="#L263">263</a></div><div><a name="L264" href="#L264">264</a></div><div><a name="L265" href="#L265">265</a></div><div><a name="L266" href="#L266">266</a></div><div><a name="L267" href="#L267">267</a></div><div><a name="L268" href="#L268">268</a></div><div><a name="L269" href="#L269">269</a></div><div><a name="L270" href="#L270">270</a></div><div><a name="L271" href="#L271">271</a></div><div><a name="L272" href="#L272">272</a></div><div><a name="L273" href="#L273">273</a></div><div><a name="L274" href="#L274">274</a></div><div><a name="L275" href="#L275">275</a></div><div><a name="L276" href="#L276">276</a></div><div><a name="L277" href="#L277">277</a></div><div><a name="L278" href="#L278">278</a></div><div><a name="L279" href="#L279">279</a></div><div><a name="L280" href="#L280">280</a></div><div><a name="L281" href="#L281">281</a></div><div><a name="L282" href="#L282">282</a></div><div><a name="L283" href="#L283">283</a></div><div><a name="L284" href="#L284">284</a></div><div><a name="L285" href="#L285">285</a></div><div><a name="L286" href="#L286">286</a></div><div><a name="L287" href="#L287">287</a></div><div><a name="L288" href="#L288">288</a></div><div><a name="L289" href="#L289">289</a></div><div><a name="L290" href="#L290">290</a></div><div><a name="L291" href="#L291">291</a></div><div><a name="L292" href="#L292">292</a></div><div><a name="L293" href="#L293">293</a></div><div><a name="L294" href="#L294">294</a></div><div><a name="L295" href="#L295">295</a></div><div><a name="L296" href="#L296">296</a></div><div><a name="L297" href="#L297">297</a></div><div><a name="L298" href="#L298">298</a></div><div><a name="L299" href="#L299">299</a></div><div><a name="L300" href="#L300">300</a></div><div><a name="L301" href="#L301">301</a></div><div><a name="L302" href="#L302">302</a></div><div><a name="L303" href="#L303">303</a></div><div><a name="L304" href="#L304">304</a></div><div><a name="L305" href="#L305">305</a></div><div><a name="L306" href="#L306">306</a></div><div><a name="L307" href="#L307">307</a></div><div><a name="L308" href="#L308">308</a></div><div><a name="L309" href="#L309">309</a></div><div><a name="L310" href="#L310">310</a></div><div><a name="L311" href="#L311">311</a></div><div><a name="L312" href="#L312">312</a></div><div><a name="L313" href="#L313">313</a></div><div><a name="L314" href="#L314">314</a></div><div><a name="L315" href="#L315">315</a></div><div><a name="L316" href="#L316">316</a></div><div><a name="L317" href="#L317">317</a></div><div><a name="L318" href="#L318">318</a></div><div><a name="L319" href="#L319">319</a></div><div><a name="L320" href="#L320">320</a></div><div><a name="L321" href="#L321">321</a></div><div><a name="L322" href="#L322">322</a></div><div><a name="L323" href="#L323">323</a></div><div><a name="L324" href="#L324">324</a></div><div><a name="L325" href="#L325">325</a></div><div><a name="L326" href="#L326">326</a></div><div><a name="L327" href="#L327">327</a></div><div><a name="L328" href="#L328">328</a></div><div><a name="L329" href="#L329">329</a></div><div><a name="L330" href="#L330">330</a></div><div><a name="L331" href="#L331">331</a></div><div><a name="L332" href="#L332">332</a></div><div><a name="L333" href="#L333">333</a></div><div><a name="L334" href="#L334">334</a></div><div><a name="L335" href="#L335">335</a></div><div><a name="L336" href="#L336">336</a></div><div><a name="L337" href="#L337">337</a></div><div><a name="L338" href="#L338">338</a></div><div><a name="L339" href="#L339">339</a></div><div><a name="L340" href="#L340">340</a></div><div><a name="L341" href="#L341">341</a></div><div><a name="L342" href="#L342">342</a></div><div><a name="L343" href="#L343">343</a></div><div><a name="L344" href="#L344">344</a></div><div><a name="L345" href="#L345">345</a></div><div><a name="L346" href="#L346">346</a></div><div><a name="L347" href="#L347">347</a></div><div><a name="L348" href="#L348">348</a></div><div><a name="L349" href="#L349">349</a></div><div><a name="L350" href="#L350">350</a></div><div><a name="L351" href="#L351">351</a></div><div><a name="L352" href="#L352">352</a></div><div><a name="L353" href="#L353">353</a></div><div><a name="L354" href="#L354">354</a></div><div><a name="L355" href="#L355">355</a></div><div><a name="L356" href="#L356">356</a></div><div><a name="L357" href="#L357">357</a></div><div><a name="L358" href="#L358">358</a></div><div><a name="L359" href="#L359">359</a></div><div><a name="L360" href="#L360">360</a></div><div><a name="L361" href="#L361">361</a></div><div><a name="L362" href="#L362">362</a></div><div><a name="L363" href="#L363">363</a></div><div><a name="L364" href="#L364">364</a></div><div><a name="L365" href="#L365">365</a></div><div><a name="L366" href="#L366">366</a></div><div><a name="L367" href="#L367">367</a></div><div><a name="L368" href="#L368">368</a></div><div><a name="L369" href="#L369">369</a></div><div><a name="L370" href="#L370">370</a></div><div><a name="L371" href="#L371">371</a></div><div><a name="L372" href="#L372">372</a></div><div><a name="L373" href="#L373">373</a></div><div><a name="L374" href="#L374">374</a></div><div><a name="L375" href="#L375">375</a></div><div><a name="L376" href="#L376">376</a></div><div><a name="L377" href="#L377">377</a></div><div><a name="L378" href="#L378">378</a></div><div><a name="L379" href="#L379">379</a></div><div><a name="L380" href="#L380">380</a></div><div><a name="L381" href="#L381">381</a></div><div><a name="L382" href="#L382">382</a></div><div><a name="L383" href="#L383">383</a></div><div><a name="L384" href="#L384">384</a></div><div><a name="L385" href="#L385">385</a></div><div><a name="L386" href="#L386">386</a></div><div><a name="L387" href="#L387">387</a></div><div><a name="L388" href="#L388">388</a></div><div><a name="L389" href="#L389">389</a></div><div><a name="L390" href="#L390">390</a></div><div><a name="L391" href="#L391">391</a></div><div><a name="L392" href="#L392">392</a></div><div><a name="L393" href="#L393">393</a></div><div><a name="L394" href="#L394">394</a></div><div><a name="L395" href="#L395">395</a></div><div><a name="L396" href="#L396">396</a></div><div><a name="L397" href="#L397">397</a></div><div><a name="L398" href="#L398">398</a></div><div><a name="L399" href="#L399">399</a></div><div><a name="L400" href="#L400">400</a></div><div><a name="L401" href="#L401">401</a></div><div><a name="L402" href="#L402">402</a></div><div><a name="L403" href="#L403">403</a></div><div><a name="L404" href="#L404">404</a></div><div><a name="L405" href="#L405">405</a></div><div><a name="L406" href="#L406">406</a></div><div><a name="L407" href="#L407">407</a></div><div><a name="L408" href="#L408">408</a></div><div><a name="L409" href="#L409">409</a></div><div><a name="L410" href="#L410">410</a></div><div><a name="L411" href="#L411">411</a></div><div><a name="L412" href="#L412">412</a></div><div><a name="L413" href="#L413">413</a></div><div><a name="L414" href="#L414">414</a></div><div><a name="L415" href="#L415">415</a></div><div><a name="L416" href="#L416">416</a></div><div><a name="L417" href="#L417">417</a></div><div><a name="L418" href="#L418">418</a></div><div><a name="L419" href="#L419">419</a></div><div><a name="L420" href="#L420">420</a></div><div><a name="L421" href="#L421">421</a></div><div><a name="L422" href="#L422">422</a></div><div><a name="L423" href="#L423">423</a></div><div><a name="L424" href="#L424">424</a></div><div><a name="L425" href="#L425">425</a></div><div><a name="L426" href="#L426">426</a></div><div><a name="L427" href="#L427">427</a></div><div><a name="L428" href="#L428">428</a></div><div><a name="L429" href="#L429">429</a></div><div><a name="L430" href="#L430">430</a></div><div><a name="L431" href="#L431">431</a></div><div><a name="L432" href="#L432">432</a></div><div><a name="L433" href="#L433">433</a></div><div><a name="L434" href="#L434">434</a></div><div><a name="L435" href="#L435">435</a></div><div><a name="L436" href="#L436">436</a></div><div><a name="L437" href="#L437">437</a></div><div><a name="L438" href="#L438">438</a></div><div><a name="L439" href="#L439">439</a></div><div><a name="L440" href="#L440">440</a></div><div><a name="L441" href="#L441">441</a></div><div><a name="L442" href="#L442">442</a></div><div><a name="L443" href="#L443">443</a></div><div><a name="L444" href="#L444">444</a></div><div><a name="L445" href="#L445">445</a></div><div><a name="L446" href="#L446">446</a></div><div><a name="L447" href="#L447">447</a></div><div><a name="L448" href="#L448">448</a></div><div><a name="L449" href="#L449">449</a></div><div><a name="L450" href="#L450">450</a></div><div><a name="L451" href="#L451">451</a></div><div><a name="L452" href="#L452">452</a></div><div><a name="L453" href="#L453">453</a></div><div><a name="L454" href="#L454">454</a></div><div><a name="L455" href="#L455">455</a></div><div><a name="L456" href="#L456">456</a></div><div><a name="L457" href="#L457">457</a></div><div><a name="L458" href="#L458">458</a></div><div><a name="L459" href="#L459">459</a></div><div><a name="L460" href="#L460">460</a></div><div><a name="L461" href="#L461">461</a></div><div><a name="L462" href="#L462">462</a></div><div><a name="L463" href="#L463">463</a></div><div><a name="L464" href="#L464">464</a></div><div><a name="L465" href="#L465">465</a></div><div><a name="L466" href="#L466">466</a></div><div><a name="L467" href="#L467">467</a></div><div><a name="L468" href="#L468">468</a></div><div><a name="L469" href="#L469">469</a></div><div><a name="L470" href="#L470">470</a></div><div><a name="L471" href="#L471">471</a></div><div><a name="L472" href="#L472">472</a></div><div><a name="L473" href="#L473">473</a></div><div><a name="L474" href="#L474">474</a></div><div><a name="L475" href="#L475">475</a></div><div><a name="L476" href="#L476">476</a></div><div><a name="L477" href="#L477">477</a></div><div><a name="L478" href="#L478">478</a></div><div><a name="L479" href="#L479">479</a></div><div><a name="L480" href="#L480">480</a></div><div><a name="L481" href="#L481">481</a></div><div><a name="L482" href="#L482">482</a></div><div><a name="L483" href="#L483">483</a></div><div><a name="L484" href="#L484">484</a></div><div><a name="L485" href="#L485">485</a></div><div><a name="L486" href="#L486">486</a></div><div><a name="L487" href="#L487">487</a></div><div><a name="L488" href="#L488">488</a></div><div><a name="L489" href="#L489">489</a></div><div><a name="L490" href="#L490">490</a></div><div><a name="L491" href="#L491">491</a></div><div><a name="L492" href="#L492">492</a></div><div><a name="L493" href="#L493">493</a></div><div><a name="L494" href="#L494">494</a></div><div><a name="L495" href="#L495">495</a></div><div><a name="L496" href="#L496">496</a></div><div><a name="L497" href="#L497">497</a></div><div><a name="L498" href="#L498">498</a></div><div><a name="L499" href="#L499">499</a></div><div><a name="L500" href="#L500">500</a></div><div><a name="L501" href="#L501">501</a></div><div><a name="L502" href="#L502">502</a></div><div><a name="L503" href="#L503">503</a></div><div><a name="L504" href="#L504">504</a></div><div><a name="L505" href="#L505">505</a></div><div><a name="L506" href="#L506">506</a></div><div><a name="L507" href="#L507">507</a></div><div><a name="L508" href="#L508">508</a></div><div><a name="L509" href="#L509">509</a></div><div><a name="L510" href="#L510">510</a></div><div><a name="L511" href="#L511">511</a></div><div><a name="L512" href="#L512">512</a></div><div><a name="L513" href="#L513">513</a></div><div><a name="L514" href="#L514">514</a></div><div><a name="L515" href="#L515">515</a></div><div><a name="L516" href="#L516">516</a></div><div><a name="L517" href="#L517">517</a></div><div><a name="L518" href="#L518">518</a></div><div><a name="L519" href="#L519">519</a></div><div><a name="L520" href="#L520">520</a></div><div><a name="L521" href="#L521">521</a></div><div><a name="L522" href="#L522">522</a></div><div><a name="L523" href="#L523">523</a></div><div><a name="L524" href="#L524">524</a></div><div><a name="L525" href="#L525">525</a></div><div><a name="L526" href="#L526">526</a></div><div><a name="L527" href="#L527">527</a></div><div><a name="L528" href="#L528">528</a></div><div><a name="L529" href="#L529">529</a></div><div><a name="L530" href="#L530">530</a></div><div><a name="L531" href="#L531">531</a></div><div><a name="L532" href="#L532">532</a></div><div><a name="L533" href="#L533">533</a></div><div><a name="L534" href="#L534">534</a></div><div><a name="L535" href="#L535">535</a></div><div><a name="L536" href="#L536">536</a></div><div><a name="L537" href="#L537">537</a></div><div><a name="L538" href="#L538">538</a></div><div><a name="L539" href="#L539">539</a></div><div><a name="L540" href="#L540">540</a></div><div><a name="L541" href="#L541">541</a></div><div><a name="L542" href="#L542">542</a></div><div><a name="L543" href="#L543">543</a></div><div><a name="L544" href="#L544">544</a></div><div><a name="L545" href="#L545">545</a></div><div><a name="L546" href="#L546">546</a></div><div><a name="L547" href="#L547">547</a></div><div><a name="L548" href="#L548">548</a></div><div><a name="L549" href="#L549">549</a></div><div><a name="L550" href="#L550">550</a></div><div><a name="L551" href="#L551">551</a></div><div><a name="L552" href="#L552">552</a></div><div><a name="L553" href="#L553">553</a></div><div><a name="L554" href="#L554">554</a></div><div><a name="L555" href="#L555">555</a></div><div><a name="L556" href="#L556">556</a></div><div><a name="L557" href="#L557">557</a></div><div><a name="L558" href="#L558">558</a></div><div><a name="L559" href="#L559">559</a></div><div><a name="L560" href="#L560">560</a></div><div><a name="L561" href="#L561">561</a></div><div><a name="L562" href="#L562">562</a></div><div><a name="L563" href="#L563">563</a></div><div><a name="L564" href="#L564">564</a></div><div><a name="L565" href="#L565">565</a></div><div><a name="L566" href="#L566">566</a></div><div><a name="L567" href="#L567">567</a></div><div><a name="L568" href="#L568">568</a></div><div><a name="L569" href="#L569">569</a></div><div><a name="L570" href="#L570">570</a></div><div><a name="L571" href="#L571">571</a></div><div><a name="L572" href="#L572">572</a></div><div><a name="L573" href="#L573">573</a></div><div><a name="L574" href="#L574">574</a></div><div><a name="L575" href="#L575">575</a></div><div><a name="L576" href="#L576">576</a></div><div><a name="L577" href="#L577">577</a></div><div><a name="L578" href="#L578">578</a></div><div><a name="L579" href="#L579">579</a></div><div><a name="L580" href="#L580">580</a></div><div><a name="L581" href="#L581">581</a></div><div><a name="L582" href="#L582">582</a></div><div><a name="L583" href="#L583">583</a></div><div><a name="L584" href="#L584">584</a></div><div><a name="L585" href="#L585">585</a></div><div><a name="L586" href="#L586">586</a></div><div><a name="L587" href="#L587">587</a></div><div><a name="L588" href="#L588">588</a></div><div><a name="L589" href="#L589">589</a></div><div><a name="L590" href="#L590">590</a></div><div><a name="L591" href="#L591">591</a></div><div><a name="L592" href="#L592">592</a></div><div><a name="L593" href="#L593">593</a></div><div><a name="L594" href="#L594">594</a></div><div><a name="L595" href="#L595">595</a></div><div><a name="L596" href="#L596">596</a></div><div><a name="L597" href="#L597">597</a></div><div><a name="L598" href="#L598">598</a></div><div><a name="L599" href="#L599">599</a></div><div><a name="L600" href="#L600">600</a></div><div><a name="L601" href="#L601">601</a></div><div><a name="L602" href="#L602">602</a></div><div><a name="L603" href="#L603">603</a></div><div><a name="L604" href="#L604">604</a></div><div><a name="L605" href="#L605">605</a></div><div><a name="L606" href="#L606">606</a></div><div><a name="L607" href="#L607">607</a></div><div><a name="L608" href="#L608">608</a></div><div><a name="L609" href="#L609">609</a></div><div><a name="L610" href="#L610">610</a></div><div><a name="L611" href="#L611">611</a></div><div><a name="L612" href="#L612">612</a></div><div><a name="L613" href="#L613">613</a></div><div><a name="L614" href="#L614">614</a></div><div><a name="L615" href="#L615">615</a></div><div><a name="L616" href="#L616">616</a></div><div><a name="L617" href="#L617">617</a></div><div><a name="L618" href="#L618">618</a></div><div><a name="L619" href="#L619">619</a></div><div><a name="L620" href="#L620">620</a></div><div><a name="L621" href="#L621">621</a></div><div><a name="L622" href="#L622">622</a></div><div><a name="L623" href="#L623">623</a></div><div><a name="L624" href="#L624">624</a></div><div><a name="L625" href="#L625">625</a></div><div><a name="L626" href="#L626">626</a></div><div><a name="L627" href="#L627">627</a></div><div><a name="L628" href="#L628">628</a></div><div><a name="L629" href="#L629">629</a></div><div><a name="L630" href="#L630">630</a></div><div><a name="L631" href="#L631">631</a></div><div><a name="L632" href="#L632">632</a></div><div><a name="L633" href="#L633">633</a></div><div><a name="L634" href="#L634">634</a></div><div><a name="L635" href="#L635">635</a></div><div><a name="L636" href="#L636">636</a></div><div><a name="L637" href="#L637">637</a></div><div><a name="L638" href="#L638">638</a></div><div><a name="L639" href="#L639">639</a></div><div><a name="L640" href="#L640">640</a></div><div><a name="L641" href="#L641">641</a></div><div><a name="L642" href="#L642">642</a></div><div><a name="L643" href="#L643">643</a></div><div><a name="L644" href="#L644">644</a></div><div><a name="L645" href="#L645">645</a></div><div><a name="L646" href="#L646">646</a></div><div><a name="L647" href="#L647">647</a></div><div><a name="L648" href="#L648">648</a></div><div><a name="L649" href="#L649">649</a></div><div><a name="L650" href="#L650">650</a></div><div><a name="L651" href="#L651">651</a></div><div><a name="L652" href="#L652">652</a></div><div><a name="L653" href="#L653">653</a></div><div><a name="L654" href="#L654">654</a></div><div><a name="L655" href="#L655">655</a></div><div><a name="L656" href="#L656">656</a></div><div><a name="L657" href="#L657">657</a></div><div><a name="L658" href="#L658">658</a></div><div><a name="L659" href="#L659">659</a></div><div><a name="L660" href="#L660">660</a></div><div><a name="L661" href="#L661">661</a></div><div><a name="L662" href="#L662">662</a></div><div><a name="L663" href="#L663">663</a></div><div><a name="L664" href="#L664">664</a></div><div><a name="L665" href="#L665">665</a></div><div><a name="L666" href="#L666">666</a></div><div><a name="L667" href="#L667">667</a></div><div><a name="L668" href="#L668">668</a></div><div><a name="L669" href="#L669">669</a></div><div><a name="L670" href="#L670">670</a></div><div><a name="L671" href="#L671">671</a></div><div><a name="L672" href="#L672">672</a></div><div><a name="L673" href="#L673">673</a></div><div><a name="L674" href="#L674">674</a></div><div><a name="L675" href="#L675">675</a></div><div><a name="L676" href="#L676">676</a></div><div><a name="L677" href="#L677">677</a></div></div><div id="sourceSpacer" class="lineNumbers"></div></pre></body></html>

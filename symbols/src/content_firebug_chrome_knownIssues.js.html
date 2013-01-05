@@ -1,0 +1,91 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/* See license.txt for terms of usage */</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/object"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/options"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/firebug"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/dom"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/chrome/firefox"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">Obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firebug</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Dom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firefox</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">// Constants</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">Cc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">Ci</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.interfaces</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> 
+<span class='line'> 18</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">versionChecker</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Cc</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/xpcom/version-comparator;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getService</span><span class="PUNC">(</span><span class="NAME">Ci.nsIVersionComparator</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">appInfo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Cc</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/xre/app-info;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getService</span><span class="PUNC">(</span><span class="NAME">Ci.nsIXULAppInfo</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="COMM">/**
+<span class='line'> 24</span>  * This module is responsible for varisous hacky solutions related to known issues.
+<span class='line'> 25</span>  */</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="NAME">Firebug.KnownIssues</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Obj.extend</span><span class="PUNC">(</span><span class="NAME">Firebug.Module</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="COMM">/** @lends Firebug.KnownIssues */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="NAME">dispatchName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"knownIssues"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> 
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">popupPrefName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"commandLineShowCompleterPopup"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="REGX">/Linux/</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">window.navigator.platform</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">            </span><span class="NAME">Options.register</span><span class="PUNC">(</span><span class="NAME">popupPrefName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">            </span><span class="NAME">Options.register</span><span class="PUNC">(</span><span class="NAME">popupPrefName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="WHIT">        </span><span class="NAME">Firebug.commandLineShowCompleterPopup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Firebug.Options.get</span><span class="PUNC">(</span><span class="NAME">popupPrefName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">        </span><span class="COMM">// In Firefox 4.0b7+ the addon-toolbar is not showing up. We'll show it once just</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">        </span><span class="COMM">// in case the user overlooks the new Firebug start-button in the toolbar. As soon</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">        </span><span class="COMM">// as users will get used to the toolbar button this could be removed completely.</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">Firebug.addonBarOpened</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">addonBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Firefox.getElementById</span><span class="PUNC">(</span><span class="STRN">"addon-bar"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="WHIT">            </span><span class="COMM">// Open the addon bar</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">            </span><span class="NAME">Dom.collapse</span><span class="PUNC">(</span><span class="NAME">addonBar</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">            </span><span class="NAME">document.persist</span><span class="PUNC">(</span><span class="STRN">"addon-bar"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"collapsed"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="WHIT">            </span><span class="COMM">// This is just one time operation.</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">            </span><span class="NAME">Firebug.Options.set</span><span class="PUNC">(</span><span class="STRN">"addonBarOpened"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_INITIALIZE</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"Set commandLineShowCompleterPopup "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">                </span><span class="NAME">Firebug.commandLineShowCompleterPopup</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="NAME">internationalizeUI</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="COMM">// See also issue 4529. Since the memory profiler is still a lab thing,</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="COMM">// hide the "Memory Profiler" button begin a pref.</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">        </span><span class="COMM">// xxxHonza: removed from 1.10 (issue 5599)</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">        </span><span class="COMM">/*if (!Options.get("memoryProfilerEnable"))
+<span class='line'> 67</span>         {
+<span class='line'> 68</span>             var button = doc.getElementById("fbToggleMemoryProfiling");
+<span class='line'> 69</span>             if (button)
+<span class='line'> 70</span>                 Dom.collapse(button, true);
+<span class='line'> 71</span>         }*/</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="COMM">// Registration</span><span class="WHIT">
+<span class='line'> 77</span> 
+<span class='line'> 78</span> </span><span class="NAME">Firebug.registerModule</span><span class="PUNC">(</span><span class="NAME">Firebug.KnownIssues</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Firebug.KnownIssues</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> </span></pre></body></html>

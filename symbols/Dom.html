@@ -1,0 +1,2459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="generator" content="JsDoc Toolkit" />
+        
+        <title>Firebug API Reference - Dom</title>
+
+        <style type="text/css">
+        /* See license.txt for terms of usage */
+
+body {
+    font-size: 12px;
+    font-family: Lucida Grande, Arial, sans-serif;
+}
+
+/************************************************************************************************/
+
+#container {
+    margin-top: 93px;
+    border-top: solid rgb(230, 230, 230) 25px;
+    width: 880px;
+}
+
+#header img {
+    z-index: 200;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+#index {
+    float: left;
+    width: 250px; /*xxxHonza 160px*/
+    left: 8px;
+    background-color: rgb(230, 230, 230); /* #F3F3F3 */
+    padding: 8px;
+    padding-top: 35px;
+}
+
+#content
+{
+    margin-top: -20px;
+    margin-left: 280px; /*xxxHonza 190px*/
+    width: 600px;
+}
+
+/************************************************************************************************/
+
+h1
+{
+    color: #444444;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0;
+    margin: 1em 0 0 .3em;
+}
+
+hr
+{
+    border: none 0;
+    border-top: 1px solid #7F8FB1;
+    height: 1px;
+}
+
+pre.code
+{
+    display: block;
+    padding: 8px;
+    border: 1px dashed #ccc;
+}
+
+a {
+    color: SlateBlue;
+    font-weight: bold;
+}
+
+/************************************************************************************************/
+
+/* cllClasses.tmpl */
+.allClassesMenu {
+}
+
+/************************************************************************************************/
+
+.reportIssue {
+    margin-left: 310px;
+}
+
+/************************************************************************************************/
+
+.classList
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 8px;
+    font-family: arial, sans-serif;
+    font-size: 1em;
+    overflow: auto;
+}
+
+.classList li
+{
+    padding: 0;
+    margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+    line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+    background-color: #7F8FB1;
+    color: #fff;
+    font-size:130%;
+    text-align: left;
+    padding: 2px 6px 2px 6px;
+    border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+    vertical-align: top;
+    padding: 4px;
+    border-bottom: 1px #7F8FB1 solid;
+    border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+    border-left: 1px #7F8FB1 solid;
+    width: 140px;
+    text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+    line-height: 15px;
+    color: #002EBE;
+    font-family: "Courier New",Courier,monospace;
+    font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+    text-align: left;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.description {
+    line-height: 17px !important;
+}
+
+.summaryTable td.nameDescription, .description
+{
+    line-height: 15px;
+    padding: 4px;
+    padding-left: 4px;
+    font-size: 12px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+    list-style: square;
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.detailList {
+    margin-left: 20px; 
+    line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+    font-weight: bold;
+    padding-bottom: 6px;
+    margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+    color: #777;
+    font-style: italic;
+}
+
+.fineprint
+{
+    text-align: right;
+    font-size: 10px;
+}
+
+code {
+    font-style: italic;
+    font-size: 10px;
+}
+
+        </style>
+	</head>
+
+<body>
+    <div id="container">
+<!-- ============================== header ================================= -->	
+        <!-- begin static/header.html -->
+        <div id="header">
+    <img src="http://getfirebug.com/developer/api/header.png"/>
+</div>
+        <!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+        <div id="index">
+            <!-- begin publish.classesIndex -->
+            <!-- Top Menu -->
+<div align="center">
+<a href="../index.html">Class Index</a> |
+<a href="../files.html">File Index</a>
+</div>
+<hr />
+
+<!-- List of Modules (objects derived from Firebug.Module) -->
+
+<h2>Modules</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Firebug.ActivableModule.html">Firebug.ActivableModule</a></li>
+    
+    <li><a href="../symbols/Firebug.Activation.html">Firebug.Activation</a></li>
+    
+    <li><a href="../symbols/Firebug.CommandLine.Popup.html">Firebug.CommandLine.Popup</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.html">Firebug.CookieModule</a></li>
+    
+    <li><a href="../symbols/Firebug.Inspector.html">Firebug.Inspector</a></li>
+    
+    <li><a href="../symbols/Firebug.Module.html">Firebug.Module</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.html">Firebug.NetMonitor</a></li>
+    
+    <li><a href="../symbols/Firebug.PanelActivation.html">Firebug.PanelActivation</a></li>
+    
+    <li><a href="../symbols/Firebug.Search.html">Firebug.Search</a></li>
+    
+    <li><a href="../symbols/Firebug.Spy.html">Firebug.Spy</a></li>
+    
+    <li><a href="../symbols/Firebug.StartButton.html">Firebug.StartButton</a></li>
+    
+    <li><a href="../symbols/Firebug.SVGViewerModel.html">Firebug.SVGViewerModel</a></li>
+    
+    <li><a href="../symbols/Firebug.TraceModule.html">Firebug.TraceModule</a></li>
+    
+    <li><a href="../symbols/Firebug.XMLViewerModel.html">Firebug.XMLViewerModel</a></li>
+    
+</ul><hr />
+
+
+<!-- List of Panels (objects derived from Firebug.Panel) -->
+
+<h2>Panels</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Firebug.ActivablePanel.html">Firebug.ActivablePanel</a></li>
+    
+    <li><a href="../symbols/Firebug.Panel.html">Firebug.Panel</a></li>
+    
+    <li><a href="../symbols/Firebug.SourceBoxPanel.html">Firebug.SourceBoxPanel</a></li>
+    
+</ul><hr />
+
+
+<!-- List of Domplate templates (usually objects derived from Firebug.Rep) -->
+
+<h2>Templates</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Breakpoints.Breakpoint.html">Breakpoints.Breakpoint</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieChanged.html">CookieReps.CookieChanged</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieCleared.html">CookieReps.CookieCleared</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRejected.html">CookieReps.CookieRejected</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRow.html">CookieReps.CookieRow</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieTable.html">CookieReps.CookieTable</a></li>
+    
+    <li><a href="../symbols/CookieReps.Rep.html">CookieReps.Rep</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.NetInfoBody.html">Firebug.CookieModule.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoBody.html">Firebug.NetMonitor.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoHeaders.html">Firebug.NetMonitor.NetInfoHeaders</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoPostData.html">Firebug.NetMonitor.NetInfoPostData</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestEntry.html">Firebug.NetMonitor.NetRequestEntry</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestTable.html">Firebug.NetMonitor.NetRequestTable</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.SizeInfoTip.html">Firebug.NetMonitor.SizeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.TimeInfoTip.html">Firebug.NetMonitor.TimeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.ScriptPanel.WarningRep.html">Firebug.ScriptPanel.WarningRep</a></li>
+    
+</ul><hr />
+
+
+<!-- List of all Services (XPCOM) objects -->
+
+<h2>Services (XPCOM)</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/fbObserverService.html">fbObserverService</a></li>
+    
+    <li><a href="../symbols/httpRequestObserver.html">httpRequestObserver</a></li>
+    
+</ul><hr />
+
+
+<!-- List of all Services (XPCOM) objects -->
+
+<h2>Libraries</h2>
+<ul class="classList">
+    
+    <li><a href="../symbols/Arr.html">Arr</a></li>
+    
+    <li><a href="../symbols/Css.html">Css</a></li>
+    
+    <li><a href="../symbols/Deprecated.html">Deprecated</a></li>
+    
+    <li><a href="../symbols/Dom.html">Dom</a></li>
+    
+    <li><a href="../symbols/Func.html">Func</a></li>
+    
+    <li><a href="../symbols/Obj.html">Obj</a></li>
+    
+    <li><a href="../symbols/Options.html">Options</a></li>
+    
+</ul><hr />
+
+
+<!-- List of all dialog objects -->
+
+
+<!-- List of all classes -->
+<h2>All Classes</h2>
+<ul class="classList">
+    
+    <li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+    
+    <li><a href="../symbols/Arr.html">Arr</a></li>
+    
+    <li><a href="../symbols/Breakpoints.Breakpoint.html">Breakpoints.Breakpoint</a></li>
+    
+    <li><a href="../symbols/Browser.EventListener.html">Browser.EventListener</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieChanged.html">CookieReps.CookieChanged</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieCleared.html">CookieReps.CookieCleared</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRejected.html">CookieReps.CookieRejected</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieRow.html">CookieReps.CookieRow</a></li>
+    
+    <li><a href="../symbols/CookieReps.CookieTable.html">CookieReps.CookieTable</a></li>
+    
+    <li><a href="../symbols/CookieReps.Rep.html">CookieReps.Rep</a></li>
+    
+    <li><a href="../symbols/Css.html">Css</a></li>
+    
+    <li><a href="../symbols/Deprecated.html">Deprecated</a></li>
+    
+    <li><a href="../symbols/Dom.html">Dom</a></li>
+    
+    <li><a href="../symbols/factoryBrowser-Browser.html">factoryBrowser-Browser</a></li>
+    
+    <li><a href="../symbols/fbObserverService.html">fbObserverService</a></li>
+    
+    <li><a href="../symbols/Firebug.ActivableModule.html">Firebug.ActivableModule</a></li>
+    
+    <li><a href="../symbols/Firebug.ActivablePanel.html">Firebug.ActivablePanel</a></li>
+    
+    <li><a href="../symbols/Firebug.Activation.html">Firebug.Activation</a></li>
+    
+    <li><a href="../symbols/Firebug.CommandLine.Popup.html">Firebug.CommandLine.Popup</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.html">Firebug.CookieModule</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.DebuggerListener.html">Firebug.CookieModule.DebuggerListener</a></li>
+    
+    <li><a href="../symbols/Firebug.CookieModule.NetInfoBody.html">Firebug.CookieModule.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.HTMLModule.DebuggerListener.html">Firebug.HTMLModule.DebuggerListener</a></li>
+    
+    <li><a href="../symbols/Firebug.Inspector.html">Firebug.Inspector</a></li>
+    
+    <li><a href="../symbols/Firebug.Module.html">Firebug.Module</a></li>
+    
+    <li><a href="../symbols/Firebug.NavigationHistory.html">Firebug.NavigationHistory</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.html">Firebug.NetMonitor</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoBody.html">Firebug.NetMonitor.NetInfoBody</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoHeaders.html">Firebug.NetMonitor.NetInfoHeaders</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetInfoPostData.html">Firebug.NetMonitor.NetInfoPostData</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestEntry.html">Firebug.NetMonitor.NetRequestEntry</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.NetRequestTable.html">Firebug.NetMonitor.NetRequestTable</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.SizeInfoTip.html">Firebug.NetMonitor.SizeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.NetMonitor.TimeInfoTip.html">Firebug.NetMonitor.TimeInfoTip</a></li>
+    
+    <li><a href="../symbols/Firebug.Panel.html">Firebug.Panel</a></li>
+    
+    <li><a href="../symbols/Firebug.PanelActivation.html">Firebug.PanelActivation</a></li>
+    
+    <li><a href="../symbols/Firebug.ScriptPanel.WarningRep.html">Firebug.ScriptPanel.WarningRep</a></li>
+    
+    <li><a href="../symbols/Firebug.Search.html">Firebug.Search</a></li>
+    
+    <li><a href="../symbols/Firebug.SourceBoxDecorator.html">Firebug.SourceBoxDecorator</a></li>
+    
+    <li><a href="../symbols/Firebug.SourceBoxPanel.html">Firebug.SourceBoxPanel</a></li>
+    
+    <li><a href="../symbols/Firebug.Spy.html">Firebug.Spy</a></li>
+    
+    <li><a href="../symbols/Firebug.Spy.XMLHttpRequestSpy.html">Firebug.Spy.XMLHttpRequestSpy</a></li>
+    
+    <li><a href="../symbols/Firebug.StartButton.html">Firebug.StartButton</a></li>
+    
+    <li><a href="../symbols/Firebug.SVGViewerModel.html">Firebug.SVGViewerModel</a></li>
+    
+    <li><a href="../symbols/Firebug.TraceModule.html">Firebug.TraceModule</a></li>
+    
+    <li><a href="../symbols/Firebug.XMLViewerModel.html">Firebug.XMLViewerModel</a></li>
+    
+    <li><a href="../symbols/Func.html">Func</a></li>
+    
+    <li><a href="../symbols/httpRequestObserver.html">httpRequestObserver</a></li>
+    
+    <li><a href="../symbols/IntoStepper.html">IntoStepper</a></li>
+    
+    <li><a href="../symbols/LineStepper.html">LineStepper</a></li>
+    
+    <li><a href="../symbols/Obj.html">Obj</a></li>
+    
+    <li><a href="../symbols/ObjectPersister.html">ObjectPersister</a></li>
+    
+    <li><a href="../symbols/Options.html">Options</a></li>
+    
+    <li><a href="../symbols/OutStepper.html">OutStepper</a></li>
+    
+    <li><a href="../symbols/Search.LiteralRegExp.html">Search.LiteralRegExp</a></li>
+    
+    <li><a href="../symbols/Search.TextSearch.html">Search.TextSearch</a></li>
+    
+    <li><a href="../symbols/window.Firebug.html">window.Firebug</a></li>
+    
+</ul>
+<hr />
+
+            <!-- end publish.classesIndex -->
+        </div>
+
+        <div id="content">
+            <a class="reportIssue" href="http://code.google.com/p/fbug/issues/entry?template=API Reference Report">Report Doc Issue</a>
+             |
+            <a href="http://getfirebug.com/wiki/index.php/Firebug_Source_Code_Comments">How To Comment Firebug Code</a>
+<!-- ============================== class title ============================ -->
+            <h1 class="classTitle">
+                
+                Class Dom
+            </h1>
+
+<!-- ============================== class summary ========================== -->			
+            
+            
+            <p class="description">
+                
+                Utility for Nodes
+                <br />
+                
+                    <br /><i>Defined in: </i> <a href="../symbols/src/content_firebug_lib_dom.js.html">dom.js</a>.
+                
+            </p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Dom.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/Dom.html#constructor">Dom</a></b>()
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class Dom.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.clearNode">clearNode</a></b>
+								</div>
+								<div class="description">Clears a node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.domInlineEventHandlersMap">domInlineEventHandlersMap</a></b>
+								</div>
+								<div class="description">List of event handlers that are settable via on* DOM properties.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.getElementByClass">getElementByClass</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.getElementsByAttribute">getElementsByAttribute</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.getElementsByClass">getElementsByClass</a></b>
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.hide">hide</a></b>
+								</div>
+								<div class="description">Hide or display an element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								Dom.<b><a href="../symbols/Dom.html#.setOuterHTML">setOuterHTML</a></b>
+								</div>
+								<div class="description">Set the outerHTML of kind of element</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class Dom.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.addScript">addScript</a></b>(doc, id, content)
+								</div>
+								<div class="description">Insert a script element in the document</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.collapse">collapse</a></b>(elt, collapsed)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.deleteMappedData">deleteMappedData</a></b>(node, key)
+								</div>
+								<div class="description">Deletes the data about the given node.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.eraseNode">eraseNode</a></b>(the)
+								</div>
+								<div class="description">Erases a node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getAncestorByClass">getAncestorByClass</a></b>(node, className)
+								</div>
+								<div class="description">Gets the ancestor of a node with a specific class name</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getAncestorByTagName">getAncestorByTagName</a></b>(node, tagName)
+								</div>
+								<div class="description">Gets the ancestor of a node with a specific tag name</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getBody">getBody</a></b>(doc)
+								</div>
+								<div class="description">Gets the body element of an HTML document or the document element for non-HTML documents</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getChildByClass">getChildByClass</a></b>(elt)
+								</div>
+								<div class="description">Selects the first child element which matches with the first classname,
+then the first child of it which matches with the second classname, and so on.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getLTRBWH">getLTRBWH</a></b>(elt)
+								</div>
+								<div class="description">Gets layout info about an element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getMappedData">getMappedData</a></b>(node, key)
+								</div>
+								<div class="description">Returns stored data about a node.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getNextElement">getNextElement</a></b>(node)
+								</div>
+								<div class="description">Gets the next element node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getOffsetSize">getOffsetSize</a></b>(elt)
+								</div>
+								<div class="description">Gets the offset size of an element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getOverflowParent">getOverflowParent</a></b>(element)
+								</div>
+								<div class="description">Gets the next scrollable ancestor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.getPreviousElement">getPreviousElement</a></b>(node)
+								</div>
+								<div class="description">Gets the previous element node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.insertAfter">insertAfter</a></b>(newNode, referenceNode)
+								</div>
+								<div class="description">Insert the new node after the reference node.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.insertTextIntoElement">insertTextIntoElement</a></b>(element, text)
+								</div>
+								<div class="description">TODO.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.isAncestor">isAncestor</a></b>(node, potentialAncestor)
+								</div>
+								<div class="description">Checks whether a node is an ancestor of another node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.isCollapsed">isCollapsed</a></b>(elt)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.isNode">isNode</a></b>(obj)
+								</div>
+								<div class="description">Returns true if the passed object is a node</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.isScrolledToBottom">isScrolledToBottom</a></b>(element)
+								</div>
+								<div class="description">Checks whether an element is scrolled to the bottom</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.markupToDocFragment">markupToDocFragment</a></b>(markup, the)
+								</div>
+								<div class="description">Converts a chunk of HTML code into DOM elements (stored in a document fragment)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.move">move</a></b>(element, x, y)
+								</div>
+								<div class="description">Moves an element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.resize">resize</a></b>(element, w, h)
+								</div>
+								<div class="description">Resizes an element</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.scrollIntoCenterView">scrollIntoCenterView</a></b>(element, scrollBox, notX, notY)
+								</div>
+								<div class="description">Centers an element inside a scrollable area</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.scrollMenupopup">scrollMenupopup</a></b>(popup, item)
+								</div>
+								<div class="description">Scrolls an element of a menu popup into view.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.scrollTo">scrollTo</a></b>(element, scrollBox, alignmentX, alignmentY, scrollWhenVisible)
+								</div>
+								<div class="description">Scrolls an element into view</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.scrollToBottom">scrollToBottom</a></b>(element)
+								</div>
+								<div class="description">Scrolls a scrollable element to the bottom</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">Dom.<b><a href="../symbols/Dom.html#.setMappedData">setMappedData</a></b>(node, key, value)
+								</div>
+								<div class="description">Stores a data about the given node.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>Dom</b>()
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name=".clearNode"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>clearNode</b>
+					
+					</div>
+					<div class="description">
+						Clears a node
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								use the following instead: <code>node.textContent = "";</code>
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".domInlineEventHandlersMap"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>domInlineEventHandlersMap</b>
+					
+					</div>
+					<div class="description">
+						List of event handlers that are settable via on* DOM properties.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getElementByClass"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>getElementByClass</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Use native Firefox node.getElementsByClassName(names).item(0)
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getElementsByAttribute"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>getElementsByAttribute</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Use native Firefox node.getElementsByClassName("[attrName=attrValue]")
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getElementsByClass"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>getElementsByClass</b>
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								Use native Firefox node.getElementsByClassName(names)
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".hide"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>hide</b>
+					
+					</div>
+					<div class="description">
+						Hide or display an element
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								set elt.style.visibility instead
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".setOuterHTML"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>setOuterHTML</b>
+					
+					</div>
+					<div class="description">
+						Set the outerHTML of kind of element
+						
+						
+					</div>
+					
+					
+
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								since Firefox 20, we can use outerHTML instead, even for non-HTML elements
+							</dt>
+							</dl>
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".addScript"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Element}</span>
+					<span class="light">Dom.</span><b>addScript</b>(doc, id, content)
+					
+					</div>
+					<div class="description">
+						Insert a script element in the document
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{DocumentElement}</span> <b>doc</b>
+									
+								</dt>
+								<dd>The document</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>id</b>
+									
+								</dt>
+								<dd>The id of the script to insert</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>content</b>
+									
+								</dt>
+								<dd>The content of the script (evaluated once the script is inserted)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> the inserted script</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".collapse"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>collapse</b>(elt, collapsed)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>elt</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>collapsed</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								xxxFlorent: hide XUL elements?? (TODO)
+							</dt>
+							</dl>
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".deleteMappedData"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>deleteMappedData</b>(node, key)
+					
+					</div>
+					<div class="description">
+						Deletes the data about the given node.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>The node</dd>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>key</b>
+									
+								</dt>
+								<dd>The key</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".eraseNode"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>eraseNode</b>(the)
+					
+					</div>
+					<div class="description">
+						Erases a node
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>the</b>
+									
+								</dt>
+								<dd>Node to erase</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getAncestorByClass"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Node}</span>
+					<span class="light">Dom.</span><b>getAncestorByClass</b>(node, className)
+					
+					</div>
+					<div class="description">
+						Gets the ancestor of a node with a specific class name
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Child node, for which to search the ancestor</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>className</b>
+									
+								</dt>
+								<dd>Class name of ancestor node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Ancestor node</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getAncestorByTagName"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Node}</span>
+					<span class="light">Dom.</span><b>getAncestorByTagName</b>(node, tagName)
+					
+					</div>
+					<div class="description">
+						Gets the ancestor of a node with a specific tag name
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Child node, for which to search the ancestor</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>tagName</b>
+									
+								</dt>
+								<dd>Tag name of the ancestor node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Ancestor node</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getBody"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Node}</span>
+					<span class="light">Dom.</span><b>getBody</b>(doc)
+					
+					</div>
+					<div class="description">
+						Gets the body element of an HTML document or the document element for non-HTML documents
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Document}</span> <b>doc</b>
+									
+								</dt>
+								<dd>Document, for which to get the body element or document element</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Body element or document element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getChildByClass"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Element}</span>
+					<span class="light">Dom.</span><b>getChildByClass</b>(elt)
+					
+					</div>
+					<div class="description">
+						Selects the first child element which matches with the first classname,
+then the first child of it which matches with the second classname, and so on...
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>elt</b>
+									
+								</dt>
+								<dd>The initial parent element</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>...classnames</b>
+									
+								</dt>
+								<dd>the classnames</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Element}</span> the element matching with the last classname or null</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getLTRBWH"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">Dom.</span><b>getLTRBWH</b>(elt)
+					
+					</div>
+					<div class="description">
+						Gets layout info about an element
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>elt</b>
+									
+								</dt>
+								<dd>Element to get the info for</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> Layout information including "left", "top", "right", "bottom",
+    "width" and "height"</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getMappedData"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{*}</span>
+					<span class="light">Dom.</span><b>getMappedData</b>(node, key)
+					
+					</div>
+					<div class="description">
+						Returns stored data about a node.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>The node</dd>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>key</b>
+									
+								</dt>
+								<dd>The key</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{*}</span> the data</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getNextElement"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Node}</span>
+					<span class="light">Dom.</span><b>getNextElement</b>(node)
+					
+					</div>
+					<div class="description">
+						Gets the next element node
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Node, for which to get the next element node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Next element node</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getOffsetSize"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">Dom.</span><b>getOffsetSize</b>(elt)
+					
+					</div>
+					<div class="description">
+						Gets the offset size of an element
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>elt</b>
+									
+								</dt>
+								<dd>Element to move</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> Offset width and height of the element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getOverflowParent"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">Dom.</span><b>getOverflowParent</b>(element)
+					
+					</div>
+					<div class="description">
+						Gets the next scrollable ancestor
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to search the ancestor for</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> Scrollable ancestor</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getPreviousElement"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Node}</span>
+					<span class="light">Dom.</span><b>getPreviousElement</b>(node)
+					
+					</div>
+					<div class="description">
+						Gets the previous element node
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Node, for which to get the previous element node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> Previous element node</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".insertAfter"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Node}</span>
+					<span class="light">Dom.</span><b>insertAfter</b>(newNode, referenceNode)
+					
+					</div>
+					<div class="description">
+						Insert the new node after the reference node.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>newNode</b>
+									
+								</dt>
+								<dd>The node to insert</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>referenceNode</b>
+									
+								</dt>
+								<dd>The node after which we insert the new node</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Node}</span> the new node if the insertion succeeded</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".insertTextIntoElement"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>insertTextIntoElement</b>(element, text)
+					
+					</div>
+					<div class="description">
+						TODO...
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>element</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>text</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isAncestor"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<span class="light">Dom.</span><b>isAncestor</b>(node, potentialAncestor)
+					
+					</div>
+					<div class="description">
+						Checks whether a node is an ancestor of another node
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>Child node, for which to check the ancestor</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>potentialAncestor</b>
+									
+								</dt>
+								<dd>Node to check</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> True if 'potentialAncestor' is an ancestor of 'node', otherwise false</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isCollapsed"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>isCollapsed</b>(elt)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>elt</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Deprecated:</dt>
+							<dt>
+								TODO
+							</dt>
+							</dl>
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isNode"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<span class="light">Dom.</span><b>isNode</b>(obj)
+					
+					</div>
+					<div class="description">
+						Returns true if the passed object is a node
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>obj</b>
+									
+								</dt>
+								<dd>The object to test</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> true if the passed object is a node, false otherwise</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isScrolledToBottom"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<span class="light">Dom.</span><b>isScrolledToBottom</b>(element)
+					
+					</div>
+					<div class="description">
+						Checks whether an element is scrolled to the bottom
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to check</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> True, if element is scrolled to the bottom, otherwise false</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".markupToDocFragment"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{DocumentFragment}</span>
+					<span class="light">Dom.</span><b>markupToDocFragment</b>(markup, the)
+					
+					</div>
+					<div class="description">
+						Converts a chunk of HTML code into DOM elements (stored in a document fragment)
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>markup</b>
+									
+								</dt>
+								<dd>The HTML code</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>the</b>
+									
+								</dt>
+								<dd>Reference element (often the element which will receive the fragment)</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{DocumentFragment}</span> the document fragment having the generated elements</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".move"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>move</b>(element, x, y)
+					
+					</div>
+					<div class="description">
+						Moves an element
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to move</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>x</b>
+									
+								</dt>
+								<dd>New horizontal position</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>y</b>
+									
+								</dt>
+								<dd>New vertical position</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".resize"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>resize</b>(element, w, h)
+					
+					</div>
+					<div class="description">
+						Resizes an element
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to resize</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>w</b>
+									
+								</dt>
+								<dd>New width</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>h</b>
+									
+								</dt>
+								<dd>New height</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".scrollIntoCenterView"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>scrollIntoCenterView</b>(element, scrollBox, notX, notY)
+					
+					</div>
+					<div class="description">
+						Centers an element inside a scrollable area
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to scroll to</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>scrollBox</b>
+									
+								</dt>
+								<dd>Scrolled element (Must be an ancestor of "element" or
+    null for automatically determining the ancestor)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>notX</b>
+									
+								</dt>
+								<dd>Specifies whether the element should be centered horizontally</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>notY</b>
+									
+								</dt>
+								<dd>Specifies whether the element should be centered vertically</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".scrollMenupopup"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>scrollMenupopup</b>(popup, item)
+					
+					</div>
+					<div class="description">
+						Scrolls an element of a menu popup into view.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>popup</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>item</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".scrollTo"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>scrollTo</b>(element, scrollBox, alignmentX, alignmentY, scrollWhenVisible)
+					
+					</div>
+					<div class="description">
+						Scrolls an element into view
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Element}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to scroll to</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>scrollBox</b>
+									
+								</dt>
+								<dd>Scrolled element (Must be an ancestor of "element" or
+    null for automatically determining the ancestor)</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>alignmentX</b>
+									
+								</dt>
+								<dd>Horizontal alignment for the element
+    (valid values: "centerOrLeft", "left", "middle", "right", "none")</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>alignmentY</b>
+									
+								</dt>
+								<dd>Vertical alignment for the element
+    (valid values: "centerOrTop", "top", "middle", "bottom", "none")</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>scrollWhenVisible</b>
+									
+								</dt>
+								<dd>Specifies whether "scrollBox" should be scrolled even when
+    "element" is completely visible</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".scrollToBottom"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<span class="light">Dom.</span><b>scrollToBottom</b>(element)
+					
+					</div>
+					<div class="description">
+						Scrolls a scrollable element to the bottom
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>element</b>
+									
+								</dt>
+								<dd>Element to scroll</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> True, if the element could be scrolled to the bottom, otherwise false</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".setMappedData"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">Dom.</span><b>setMappedData</b>(node, key, value)
+					
+					</div>
+					<div class="description">
+						Stores a data about the given node.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Node}</span> <b>node</b>
+									
+								</dt>
+								<dd>The node</dd>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>key</b>
+									
+								</dt>
+								<dd>The key</dd>
+							
+								<dt>
+									<span class="light fixedFont">{*}</span> <b>value</b>
+									
+								</dt>
+								<dd>The data to store</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.3.0 on Sat Jan 05 2013 23:10:38 GMT+0100 (CET)
+		</div>
+    </div>
+</body>
+</html>

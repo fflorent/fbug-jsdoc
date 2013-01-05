@@ -1,0 +1,87 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/* See license.txt for terms of usage */</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// Backward compatibility with Extensions</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="COMM">// xxxHonza: the only global should be Firebug object, but extensions use FBL</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="COMM">// to register namespaces (and bindings.xml uses it too). So, FBL must be</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="COMM">// available before extension's scripts are loaded.</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="NAME">window.FBL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">    </span><span class="NAME">namespaces</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="NAME">ns</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fn</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">        </span><span class="NAME">this.namespaces.push</span><span class="PUNC">(</span><span class="NAME">fn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ns</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="NAME">initialize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_INITIALIZE</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"FBL.initialize BEGIN "</span><span class="PUNC">+</span><span class="NAME">FBL.namespaces.length</span><span class="PUNC">+</span><span class="STRN">" namespaces\n"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="NAME">FBL.namespaces.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">+</span><span class="PUNC">=</span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FBL.namespaces</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FBL.namespaces</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">            </span><span class="KEYW">try</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">                </span><span class="NAME">fn.apply</span><span class="PUNC">(</span><span class="NAME">ns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">            </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">exc</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">            </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">                </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"fbl.initialize; EXCEPTION "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">exc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">exc</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">exc.stack</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">                    </span><span class="NAME">Components.utils.reportError</span><span class="PUNC">(</span><span class="STRN">"Firebug initialize FAILS "</span><span class="PUNC">+</span><span class="NAME">exc</span><span class="PUNC">+</span><span class="STRN">" "</span><span class="PUNC">+</span><span class="NAME">exc.stack</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">                </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">                    </span><span class="NAME">Components.utils.reportError</span><span class="PUNC">(</span><span class="STRN">"Firebug initialize FAILS "</span><span class="PUNC">+</span><span class="NAME">exc</span><span class="PUNC">+</span><span class="STRN">" "</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">                        </span><span class="NAME">fn.toSource</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">substr</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NUMB">500</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">FBTrace.DBG_INITIALIZE</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"FBL.initialize END "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">FBL.namespaces.length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" namespaces"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"Modules: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">Firebug.modules.length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">            </span><span class="NAME">FBTrace.sysout</span><span class="PUNC">(</span><span class="STRN">"Panel types: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">Firebug.earlyRegPanelTypes.length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="COMM">// Called by firebugFrame main.js to pump global and deprecated API back.</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="NAME">window.FBL.legacyPatch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">FBL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firebug</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">window</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="NAME">top.FBL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FBL</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">    </span><span class="NAME">top.Firebug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Firebug</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> </span><span class="NAME">window.FBL.legacyApiPatch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">FBL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firebug</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firefox</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="COMM">// Backward compatibility with extensions</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">    </span><span class="COMM">// deprecated</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">    </span><span class="NAME">Firebug.getTabIdForWindow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FBL.getWindowProxyIdForWindow</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">    </span><span class="NAME">Firebug.getTabForWindow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FBL.getTabForWindow</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> 
+<span class='line'> 74</span> </span><span class="WHIT">    </span><span class="NAME">Firebug.chrome.getBrowsers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Firefox.getBrowsers</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">    </span><span class="NAME">Firebug.chrome.getCurrentBrowsers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Firefox.getCurrentBrowsers</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">    </span><span class="NAME">Firebug.chrome.getCurrentURI</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Firefox.getCurrentURI</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 80</span> </span></pre></body></html>

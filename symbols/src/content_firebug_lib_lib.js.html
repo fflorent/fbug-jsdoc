@@ -1,0 +1,125 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/* See license.txt for terms of usage */</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/object"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/xpcom"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/locale"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/events"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/options"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/deprecated"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/wrapper"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/url"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/js/sourceLink"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/js/stackFrame"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/css"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/dom"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/http"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/chrome/window"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/search"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/xpath"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/string"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/xml"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/persist"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/array"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/system"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/json"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/fonts"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/chrome/menu"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/dom/toggleBranch"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/trace/debug"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/keywords"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/lib/domplate"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="STRN">"firebug/chrome/firefox"</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">Obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Xpcom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Locale</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Events</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Deprecated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Wrapper</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SourceLink</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="NAME">StackFrame</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Css</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Dom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Http</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Win</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Search</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Xpath</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Str</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Xml</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Persist</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Arr</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">System</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Json</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="NAME">Fonts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Menu</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ToggleBranch</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Debug</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Keywords</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Domplate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firefox</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="COMM">// xxxFlorent: Check with  JSHint</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="STRN">"use strict"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">FBL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.FBL</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">// legacy.js adds top.FBL, FIXME, remove after iframe version </span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="COMM">// xxxHonza: all deprecated API should be removed from 1.9+</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="COMM">// All properties and methods of FBL namespace are deprecated.</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="COMM">// Backward compatibility with extensions</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="COMM">// deprecated</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="COMM">// xxxFlorent: add a page in the wiki explaining how to use AMD in Firebug-related projects</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="KEYW">const</span><span class="WHIT"> </span><span class="NAME">deprecationMessage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Don't use FBL anymore. Please, use AMD instead"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">libs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">Obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Xpcom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Locale</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Events</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Wrapper</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">StackFrame</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Css</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Dom</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Http</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Win</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Search</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="NAME">Xpath</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Str</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Xml</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Persist</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Arr</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">System</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Json</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Fonts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Menu</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ToggleBranch</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Debug</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Keywords</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Firefox</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 55</span> </span><span class="NAME">Deprecated</span><span class="WHIT"> </span><span class="PUNC">,</span><span class="NAME">Domplate</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="NAME">libs.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">lib</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">lib</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">        </span><span class="NAME">FBL</span><span class="PUNC">[</span><span class="NAME">p</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Deprecated.deprecated</span><span class="PUNC">(</span><span class="NAME">deprecationMessage</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">lib</span><span class="PUNC">[</span><span class="NAME">p</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="NAME">Deprecated.deprecatedROProp</span><span class="PUNC">(</span><span class="NAME">FBL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"SourceLink"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">deprecationMessage</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SourceLink.SourceLink</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">// deprecated</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="NAME">FBL.$</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Deprecated.deprecated</span><span class="PUNC">(</span><span class="STRN">"Use document.getElementById(id) instead"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">doc.getElementById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">    </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">document.getElementById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> 
+<span class='line'> 74</span> </span><span class="COMM">// xxxFlorent: it appears likely that this $break function is not used anywhere...</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="COMM">//             StopIteration was private to domplate.js</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">StopIteration</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 77</span> 
+<span class='line'> 78</span> </span><span class="NAME">FBL.$break</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Deprecated.deprecated</span><span class="PUNC">(</span><span class="STRN">"Use the break statement instead"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="NAME">StopIteration</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="COMM">// deprecated</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">jsd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Components.classes</span><span class="PUNC">[</span><span class="STRN">"@mozilla.org/js/jsd/debugger-service;1"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">    </span><span class="NAME">getService</span><span class="PUNC">(</span><span class="NAME">Components.interfaces.jsdIDebuggerService</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="NAME">Deprecated.deprecatedROProp</span><span class="PUNC">(</span><span class="NAME">FBL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"jsd"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Access to JSD through Components.classes"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jsd</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> 
+<span class='line'> 89</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="COMM">// Constants</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="KEYW">try</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">    </span><span class="NAME">Components.utils</span><span class="PUNC">[</span><span class="STRN">"import"</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="STRN">"resource://gre/modules/PluralForm.jsm"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">    </span><span class="NAME">Components.utils</span><span class="PUNC">[</span><span class="STRN">"import"</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="STRN">"resource://firebug/firebug-service.js"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">    </span><span class="COMM">// deprecated</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> </span><span class="WHIT">    </span><span class="NAME">Deprecated.deprecatedROProp</span><span class="PUNC">(</span><span class="NAME">FBL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"fbs"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Access to Firebug Service (FBS) through "</span><span class="PUNC">+</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="STRN">"Components.utils"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fbs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">err</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="COMM">// deprecated</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="COMM">// FBL.reUpperCase = /[A-Z]/;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="NAME">Deprecated.deprecatedROProp</span><span class="PUNC">(</span><span class="NAME">FBL</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"reUpperCase"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Use the following RegExp instead: /[A-Z]/"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">    </span><span class="REGX">/[A-Z]/</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="COMM">// Registration</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">FBL</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="COMM">// ********************************************************************************************* //</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span></pre></body></html>
